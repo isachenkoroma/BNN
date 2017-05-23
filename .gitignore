@@ -1,0 +1,12 @@
+.DS_Store
+code/.ipynb_checkpoints/
+data/.DS_Store
+doc/*.aux
+doc/*.log
+doc/*.nav
+doc/*.out
+doc/*.snm
+doc/*.gz
+doc/*.toc
+doc/*.bbl
+doc/*.blg
