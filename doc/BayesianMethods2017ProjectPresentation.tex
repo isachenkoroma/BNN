@@ -253,7 +253,7 @@
 	
 	\begin{minipage}[t]{0.32\columnwidth}
 		\vspace{0.2cm}
-		Inverse-Gamma hyperprior on scaling parameter
+		Inverse-Gamma hyperprior
 	\end{minipage}
 	\begin{minipage}[t]{0.32\columnwidth}
 		\begin{figure}
@@ -268,22 +268,34 @@
 \end{frame} 
 %--------------------------------------------------------------------------------
 \begin{frame}{Synthetic data}
-	Laplace prior does indeed provide sparser solutions compared to cauchy or gauss.
-	\vspace{-8mm}
 	\begin{columns}[t]
 		\column{.5\textwidth}
 		\centering
+		Laplace prior
 		\begin{figure}
-			\includegraphics[width=4cm,height=6cm]{pres_pics/trace_laplace.png}
-			\vspace{-3mm}
-			\caption{Laplace prior}
+			\includegraphics[width=1\columnwidth]{pres_pics/trace_laplace_w1.png}
 		\end{figure}
+	\vspace{-0.3cm}
+		\begin{figure}
+			\includegraphics[width=1\columnwidth]{pres_pics/trace_laplace_w2.png}
+		\end{figure}
+	\vspace{-0.3cm}
+	\begin{figure}
+		\includegraphics[width=1\columnwidth]{pres_pics/trace_laplace_w3.png}
+	\end{figure}
 		\column{.5\textwidth}
 		\centering
+		Cauchy prior
 		\begin{figure}
-			\includegraphics[width=4cm,height=6cm]{pres_pics/trace_laplace.png}
-			\vspace{-3mm}
-			\caption{Cauchy prior}
+			\includegraphics[width=1\columnwidth]{pres_pics/trace_cauchy_w1.png}
+		\end{figure}
+		\vspace{-0.3cm}
+		\begin{figure}
+			\includegraphics[width=1\columnwidth]{pres_pics/trace_cauchy_w2.png}
+		\end{figure}
+		\vspace{-0.3cm}
+		\begin{figure}
+		\includegraphics[width=1\columnwidth]{pres_pics/trace_cauchy_w3.png}
 		\end{figure}
 	\end{columns}
 \end{frame}
@@ -361,5 +373,15 @@
 	\end{minipage}
 \end{frame}
 
+%--------------------------------------------------------------------------------
+\begin{frame}{Conclusion}
+	\begin{itemize}
+		\item Posterior distribution helps to make conclusions about uncertainties
+		\vspace{0.2cm}
+		\item Variational inference allows to approximate posterior distribution for high-dimensional data
+		\vspace{0.2cm}
+		\item Hierarchical models have more degrees of freedom
+	\end{itemize}
+\end{frame}
 
 \end{document} 
