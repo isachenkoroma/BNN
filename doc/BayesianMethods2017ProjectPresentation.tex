@@ -20,6 +20,7 @@
 \definecolor{orangemy}{RGB}{66, 138, 183}
 \newcommand{\T}{{\text{\tiny\sffamily\upshape\mdseries T}}}
 \DeclareMathOperator*{\argmax}{arg\,max}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
 %--------------------------------------------------------------------------------
 \title[\hbox to 56mm{Bayesian Neural Networks  \hfill\insertframenumber\,/\,\inserttotalframenumber}]
 {Bayesian Neural Networks}
@@ -175,14 +176,24 @@ Goals:
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Experiments}
-	The best priors for moons and circles are gauss and cauchy with hyperprior respectively.
+	The best priors for circles and moons are gauss and cauchy with hyperprior respectively.
 	\begin{columns}[t]
 		\column{.5\textwidth}
 		\centering
-			\includegraphics[width=4cm,height=3cm]{pres_pics/inv_cauchy_ppm.png}\ \includegraphics[width=4cm,height=3cm]{pres_pics/inv_cachy_uncert.png}
+			\includegraphics[width=4cm,height=3cm]{pres_pics/inv_cauchy_ppm.png}
+			\vspace{-5mm}
+			\begin{figure}
+				\includegraphics[width=4cm,height=3cm]{pres_pics/inv_cauchy_uncert.png}
+				\caption{Accuracy: 0.735}
+			\end{figure}
 		\column{.5\textwidth}
 		\centering
-		\includegraphics[width=4cm,height=3cm]{pres_pics/inv_gauss_ppm.png}\    \includegraphics[width=4cm,height=3cm]{pres_pics/inv_gauss_uncert.png}
+		\includegraphics[width=4cm,height=3cm]{pres_pics/inv_gauss_ppm.png}
+		\vspace{-5mm}
+		\begin{figure}
+			\includegraphics[width=4cm,height=3cm]{pres_pics/inv_gauss_uncert.png}
+			\caption{Accuracy: 0.851}
+		\end{figure}
 	\end{columns}
 \end{frame}
 %--------------------------------------------------------------------------------
@@ -191,25 +202,49 @@ Goals:
 	\begin{columns}[t]
 		\column{.3\textwidth}
 		\centering
-		\includegraphics[width=4cm,height=3cm]{pres_pics/h_cauchy.png}\ \includegraphics[width=4cm,height=3cm]{pres_pics/p_cauchy.png}
+		\includegraphics[width=3.5cm,height=3cm]{pres_pics/h_cauchy.png}
+		\vspace{-9mm}
+		\begin{figure}
+			\includegraphics[width=3.5cm,height=3cm]{pres_pics/p_cauchy.png}
+			\caption{Cauchy prior}
+		\end{figure}
 		\column{.3\textwidth}
 		\centering
-		\includegraphics[width=4cm,height=3cm]{pres_pics/h_gauss.png}\    \includegraphics[width=4cm,height=3cm]{pres_pics/p_gauss.png}
+		\includegraphics[width=3.5cm,height=3cm]{pres_pics/h_gauss.png}
+		\vspace{-9mm}
+		\begin{figure}
+			\includegraphics[width=3.5cm,height=3cm]{pres_pics/p_gauss.png}
+			\caption{Normal prior}
+		\end{figure}
 		\column{.3\textwidth}
 		\centering
-		\includegraphics[width=4cm,height=3cm]{pres_pics/h_laplace.png}\    \includegraphics[width=4cm,height=3cm]{pres_pics/p_laplace.png}
+		\includegraphics[width=3.5cm,height=3cm]{pres_pics/h_laplace.png}
+		\vspace{-9mm}
+		\begin{figure}
+			\includegraphics[width=3.5cm,height=3cm]{pres_pics/p_laplace.png}
+			\caption{Laplace prior}
+		\end{figure}
 	\end{columns}
 \end{frame}
 
 \begin{frame}{Experiments}
 	Laplace prior does indeed provide sparser solutions compared to cauchy or gauss.
+	\vspace{-8mm}
 	\begin{columns}[t]
 		\column{.5\textwidth}
 		\centering
-		\includegraphics[width=4cm,height=7cm]{pres_pics/trace_laplace.png}
+		\begin{figure}
+			\includegraphics[width=4cm,height=6cm]{pres_pics/trace_laplace.png}
+			\vspace{-3mm}
+			\caption{Laplace prior}
+		\end{figure}
 		\column{.5\textwidth}
 		\centering
-		\includegraphics[width=4cm,height=7cm]{pres_pics/trace_cauchy.png}
+		\begin{figure}
+			\includegraphics[width=4cm,height=6cm]{pres_pics/trace_laplace.png}
+			\vspace{-3mm}
+			\caption{Cauchy prior}
+		\end{figure}
 	\end{columns}
 \end{frame}
 
