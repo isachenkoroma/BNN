@@ -181,37 +181,63 @@
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Course of work}
-	\textbf{Priors}: Normal, Laplace, Flat, Cauchy
+	$\qquad\qquad\qquad\qquad\qquad\:\:\:$\textbf{Normal}$\:\:\:\,$\textbf{Laplace}$\:\:\:\,$\textbf{Cauchy}$\quad\:\:$\textbf{Flat}
 	
-	\textbf{Hyperpriors}:
-	\begin{itemize}
-		\item fixed values of hyperparameters
-		\item Hierarchical modelling: Half-Normal, Half-Cauchy, Inverse-Gamma
-	\end{itemize}
+	\begin{minipage}[t]{0.1\columnwidth}
+		\vspace{0.5cm}
+		\rotatebox{90}{\textbf{Hierarchical modeling}$\qquad\:\:$\textbf{Fix}}
+	\end{minipage}\
+	\begin{minipage}[t]{0.23\columnwidth}
+	\vspace{0.65cm}
+	Fixed values
+	
+	\vspace{1.05cm}
+	
+	Half-Normal
+	
+	\vspace{1.03cm}
+	
+	Half-Cauchy
+	
+	\vspace{1.01cm}
+	
+	Inverse-Gamma
+	\end{minipage}
+	\begin{minipage}[t]{0.62\columnwidth}
+		\begin{figure}
+			\includegraphics[height=6cm]{pres_pics/all.png}
+		\end{figure}
+	\end{minipage}
+	
 	
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Synthetic data}
 	\begin{minipage}[t]{0.32\columnwidth}
-	\vspace{0.7cm}
+	\vspace{0.9cm}
 	\textbf{Prior:} Cauchy\\
 	\textbf{Hyperprior:} \\Inverse-Gamma\\
 	\textbf{Accuracy:} 0.735
 	\end{minipage}
 	\begin{minipage}[t]{0.32\columnwidth}
 		\centering 
-		Posterior Probability
+		\textbf{Posterior}\\\textbf{Probability}
+		\vspace{-0.3cm}
 		\begin{figure}
 			\includegraphics[height=3cm]{pres_pics/circles_inv_cauchy_ppm.png}
 		\end{figure}
 	\end{minipage}
 	\begin{minipage}[t]{0.32\columnwidth}
 		\centering
-		Uncertainty
+		\vspace{0.06cm}
+		\textbf{Uncertainty}
+		\vspace{-0.15cm}
 		\begin{figure}
 			\includegraphics[height=3cm]{pres_pics/circles_inv_cauchy_uncert.png}
 		\end{figure}
 	\end{minipage}
+
+\vfill
 
 \begin{minipage}[t]{0.32\columnwidth}
 	\vspace{0.2cm}
@@ -233,27 +259,30 @@
 %--------------------------------------------------------------------------------
 \begin{frame}{Synthetic data}
 	\begin{minipage}[t]{0.32\columnwidth}
-	\vspace{0.7cm}
-	Fixed \\ hyperparameters
+	\vspace{0.6cm}
+	\textbf{Hyperprior:} \\Fixed values
 	\end{minipage}
 	\begin{minipage}[t]{0.32\columnwidth}
-		\centering 
-		Normal prior
+		\centering
+		\textbf{Prior:} Normal
 		\begin{figure}
 			\includegraphics[height=3cm]{pres_pics/p_gauss.png}
 		\end{figure}
 	\end{minipage}
 	\begin{minipage}[t]{0.32\columnwidth}
 		\centering
-		Laplace prior
+		\textbf{Prior:} Laplace
+		\vspace{-0.075cm}
 		\begin{figure}
 			\includegraphics[height=3cm]{pres_pics/p_laplace.png}
 		\end{figure}
 	\end{minipage}
 	
+	\vfill
+	
 	\begin{minipage}[t]{0.32\columnwidth}
 		\vspace{0.2cm}
-		Inverse-Gamma hyperprior
+		\textbf{Hyperprior:} \\Inverse-Gamma
 	\end{minipage}
 	\begin{minipage}[t]{0.32\columnwidth}
 		\begin{figure}
@@ -268,36 +297,12 @@
 \end{frame} 
 %--------------------------------------------------------------------------------
 \begin{frame}{Synthetic data}
-	\begin{columns}[t]
-		\column{.5\textwidth}
-		\centering
-		Laplace prior
-		\begin{figure}
-			\includegraphics[width=1\columnwidth]{pres_pics/trace_laplace_w1.png}
-		\end{figure}
-	\vspace{-0.3cm}
-		\begin{figure}
-			\includegraphics[width=1\columnwidth]{pres_pics/trace_laplace_w2.png}
-		\end{figure}
-	\vspace{-0.3cm}
 	\begin{figure}
 		\includegraphics[width=1\columnwidth]{pres_pics/trace_laplace_w3.png}
 	\end{figure}
-		\column{.5\textwidth}
-		\centering
-		Cauchy prior
-		\begin{figure}
-			\includegraphics[width=1\columnwidth]{pres_pics/trace_cauchy_w1.png}
-		\end{figure}
-		\vspace{-0.3cm}
-		\begin{figure}
-			\includegraphics[width=1\columnwidth]{pres_pics/trace_cauchy_w2.png}
-		\end{figure}
-		\vspace{-0.3cm}
-		\begin{figure}
+	\begin{figure}
 		\includegraphics[width=1\columnwidth]{pres_pics/trace_cauchy_w3.png}
-		\end{figure}
-	\end{columns}
+	\end{figure}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{MNIST}
@@ -307,39 +312,70 @@
 		\end{figure}
 	\end{minipage}
 	\hfill
-	\begin{minipage}[t]{0.49\columnwidth}
+	\begin{minipage}[t]{0.46\columnwidth}
 		\begin{figure}
 			\includegraphics[width=1\columnwidth]{pres_pics/mnist_eer}
 		\end{figure}
 	\end{minipage}
+
+	\vfill
+
+	\textbf{Conclusions:}
 	\begin{itemize}
-		\item Accuracy score: $97.7 \%$
-		\item Variance is much higher for misclassified pictures
-		\item Model is not always confident
+		\item Accuracy score: $97.7 \%$;
+		\item Variance is much higher for misclassified pictures;
+		\item Model is not always confident.
 	\end{itemize}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{MNIST}
-	Misclassified pictures with zero expected error rate:
-	\vspace{0.3cm}
+	Misclassified pictures with \textbf{zero expected error rate}:
+	
+	\vspace{0.5cm}
 	
 	\begin{minipage}[t]{0.32\columnwidth}
-		True: 7\\
-		Prediction: 0
+		\fbox{\begin{minipage}[t]{0.25\columnwidth}
+			\centering
+			\textbf{True}\\
+			\LARGE{7}
+		\end{minipage}}
+		\fbox{\begin{minipage}[t]{0.57\columnwidth}
+				\centering
+				\textbf{Prediction}\\
+				\LARGE{0}
+		\end{minipage}}
 		\begin{figure}
 			\includegraphics[width=1\columnwidth]{pres_pics/high_conf/70}
 		\end{figure}
 	\end{minipage}
+\hfill
 	\begin{minipage}[t]{0.32\columnwidth}
-		True: 9\\
-		Prediction: 7
+		\fbox{\begin{minipage}[t]{0.25\columnwidth}
+				\centering
+				\textbf{True}\\
+				\LARGE{9}
+		\end{minipage}}
+		\fbox{\begin{minipage}[t]{0.57\columnwidth}
+				\centering
+				\textbf{Prediction}\\
+				\LARGE{7}
+		\end{minipage}}
 		\begin{figure}
 			\includegraphics[width=1\columnwidth]{pres_pics/high_conf/97}
 		\end{figure}
 	\end{minipage}
+\hfill
 	\begin{minipage}[t]{0.32\columnwidth}
-		True: 5\\
-		Prediction: 6
+		\fbox{\begin{minipage}[t]{0.25\columnwidth}
+				\centering
+				\textbf{True}\\
+				\LARGE{5}
+		\end{minipage}}
+		\fbox{\begin{minipage}[t]{0.57\columnwidth}
+				\centering
+				\textbf{Prediction}\\
+				\LARGE{6}
+		\end{minipage}}
 		\begin{figure}
 			\includegraphics[width=1\columnwidth]{pres_pics/high_conf/56}
 		\end{figure}
@@ -347,26 +383,53 @@
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{MNIST}
-	Pictures with the lowest confidence
-	\vspace{0.3cm}
+	Pictures with the \textbf{lowest confidence}:
+	
+	\vspace{0.5cm}
 	
 	\begin{minipage}[t]{0.32\columnwidth}
-		True: 4\\
-		Prediction: 0
+		\fbox{\begin{minipage}[t]{0.25\columnwidth}
+				\centering
+				\textbf{True}\\
+				\LARGE{4}
+		\end{minipage}}
+		\fbox{\begin{minipage}[t]{0.57\columnwidth}
+				\centering
+				\textbf{Prediction}\\
+				\LARGE{0}
+		\end{minipage}}
 		\begin{figure}
 			\includegraphics[width=1\columnwidth]{pres_pics/low_conf/40}
 		\end{figure}
 	\end{minipage}
+\hfill
 	\begin{minipage}[t]{0.32\columnwidth}
-		True: 6\\
-		Prediction: 8
+		\fbox{\begin{minipage}[t]{0.25\columnwidth}
+				\centering
+				\textbf{True}\\
+				\LARGE{6}
+		\end{minipage}}
+		\fbox{\begin{minipage}[t]{0.57\columnwidth}
+				\centering
+				\textbf{Prediction}\\
+				\LARGE{8}
+		\end{minipage}}
 		\begin{figure}
 			\includegraphics[width=1\columnwidth]{pres_pics/low_conf/68}
 		\end{figure}
 	\end{minipage}
+\hfill
 	\begin{minipage}[t]{0.32\columnwidth}
-		True: 1\\
-		Prediction: 1
+		\fbox{\begin{minipage}[t]{0.25\columnwidth}
+				\centering
+				\textbf{True}\\
+				\LARGE{1}
+		\end{minipage}}
+		\fbox{\begin{minipage}[t]{0.57\columnwidth}
+				\centering
+				\textbf{Prediction}\\
+				\LARGE{1}
+		\end{minipage}}
 		\begin{figure}
 			\includegraphics[width=1\columnwidth]{pres_pics/low_conf/11}
 		\end{figure}
