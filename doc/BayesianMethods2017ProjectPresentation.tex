@@ -43,20 +43,18 @@
 	\begin{block}{Goal}
 		Estimate posterior distributions of the model parameters from data
 	\end{block}
+\vspace{0.1cm}
+\textbf{Probabilistic Programming:}
+\begin{itemize}
+	\item Uncertainty in predictions;
+	\item Uncertainty in representations;
+	\item Regularizations with priors;
+	\item Transfer learning;
+	\item Hierarchical Neural Networks.
+\end{itemize}
 	\begin{block}{Problem}
 		Monte Carlo sampling is very slow for high-dimensional data
 	\end{block}	
-
-	\vfill
-
-	\textbf{Probabilistic Programming:}
-	\begin{itemize}
-		\item Uncertainty in predictions;
-		\item Uncertainty in representations;
-		\item Regularizations with priors;
-		\item Transfer learning;
-		\item Hierarchical Neural Networks.
-	\end{itemize}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Related work}
@@ -94,7 +92,7 @@
 %--------------------------------------------------------------------------------
 \begin{frame}{Variational Inference}
 	\begin{block}{Goal}
-	Approximate posterior distribution $p(X, \theta)$ by function $q(\theta)$ from parametric family.
+	Approximate posterior distribution $p(\bm{\theta}|\bm{X})$ by function $q(\bm{\theta})$ from parametric family.
 	\end{block}
 	\begin{align*}
 		&\ln p(\mathbf{X}) = \text{KL}(q||p) + \text{ELBO}(q)\\
@@ -257,7 +255,7 @@
 \end{minipage}
 \end{frame}
 %--------------------------------------------------------------------------------
-\begin{frame}{Synthetic data}
+\begin{frame}{Hierarchical modelling}
 	\begin{minipage}[t]{0.32\columnwidth}
 	\vspace{0.6cm}
 	\textbf{Hyperprior:} \\Fixed values
@@ -296,7 +294,7 @@
 	\end{minipage}
 \end{frame} 
 %--------------------------------------------------------------------------------
-\begin{frame}{Synthetic data}
+\begin{frame}{Laplace sparsity}
 	\begin{figure}
 		\includegraphics[width=1\columnwidth]{pres_pics/trace_laplace_w3.png}
 	\end{figure}
