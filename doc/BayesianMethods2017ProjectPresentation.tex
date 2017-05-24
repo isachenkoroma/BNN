@@ -7,6 +7,7 @@
 \usepackage{epic,ecltree}
 \usepackage{mathtext}
 \usepackage{fancybox}
+\usepackage{xcolor}
 \usepackage{fancyhdr}
 \usepackage{bm}
 \usepackage{multirow}
@@ -16,7 +17,7 @@
 \usetheme{Copenhagen}%{Singapore}%{Warsaw}%{Warsaw}%{Darmstadt}
 \usecolortheme{whale}
 %\definecolor{beamer@blendedblue}{RGB}{15,120,80}
-
+\definecolor{orangemy}{RGB}{66, 138, 183}
 \newcommand{\T}{{\text{\tiny\sffamily\upshape\mdseries T}}}
 \DeclareMathOperator*{\argmax}{arg\,max}
 %--------------------------------------------------------------------------------
@@ -37,21 +38,23 @@
 		\titlepage
 	\end{frame}
 %--------------------------------------------------------------------------------
-\begin{frame}{Project goal}
-		
-	\begin{block}{Aim}
-		Estimate posterior distribution of the model parameters from data
+\begin{frame}{Project goal}	
+	\begin{block}{Goal}
+		Estimate posterior distributions of the model parameters from data
 	\end{block}
 	\begin{block}{Problem}
 		Monte Carlo sampling is very slow for high-dimensional data
 	\end{block}	
-	\textbf{Probabilistic Programming}
+
+	\vfill
+
+	\textbf{Probabilistic Programming:}
 	\begin{itemize}
-		\item Uncertainty in predictions
-		\item Uncertainty in representations
-		\item Regularizations with priors
-		\item Transfer learning
-		\item Hiearchical Neural Networks
+		\item Uncertainty in predictions;
+		\item Uncertainty in representations;
+		\item Regularizations with priors;
+		\item Transfer learning;
+		\item Hierarchical Neural Networks.
 	\end{itemize}
 \end{frame}
 %--------------------------------------------------------------------------------
@@ -67,60 +70,117 @@
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Problem Statement}
-	\begin{block}{Bayes Theorem}
+	\begin{block}{Inference problem}
+			Bayes' theorem states:
+			$\displaystyle
+			\mathbb{P}(\bm{\theta}\,|\,\mathbf{X}) = \frac{\mathbb{P}(\mathbf{X}\,|\,\bm{\theta}) \mathbb{P}(\bm{\theta})}{\mathbb{P}(\mathbf{X})}
+			$
+	\end{block}
+	\begin{block}{Maximum A Posteriori (MAP) estimation}
+		\vspace{-0.3cm}
 	\[
-		p(\theta|X) = \frac{p(X|\theta) p(\theta)}{p(X)}
+	\bm{\theta}^* = \argmax_{\bm{\theta}} \left[\ln\mathbb{P}(\bm{\theta}\,|\,\mathbf{X})\right] =\argmax_{\bm{\theta}} \left[\ln\mathbb{P}(\mathbf{X}\,|\,\bm{\theta}) + \ln\mathbb{P}(\bm{\theta})\right]
 	\]
 	\end{block}
-	\begin{block}{Frequentist approach}
-	\[
-	\theta^* = \argmax_\theta p(\theta|X) =\argmax_\theta  p(X|\theta) + p(\theta)
-	\]
-	\end{block}
-	\textbf{Monte Carlo approach}
+	\vfill
+	\textbf{Monte Carlo approach:}
 	\begin{itemize}
-		\item Metropolis Hasting
-		\item Gibbs sampling
-		\item No-U-Turn Sampling (NUTS)
+		\item Metropolis-Hastings sampling;
+		\item Gibbs sampling;
+		\item No-U-Turn Sampling (NUTS).
 	\end{itemize}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Variational Inference}
-	\[
-		\ln p(X) = \text{KL}(q||p) + \text{ELBO}(q)
-	\]
-	\[
-		\text{KL}(q||p) = \int q(\theta) \ln \frac{q(\theta)}{p(\theta|X)} d \theta;
-	\quad
-		\text{ELBO}(q) = \int q(\theta) \ln \frac{p(X, \theta)}{q(\theta)}d\theta
-	\]
-	\begin{block}{Problem}
-		minimization of $\text{KL}(q||p)$ $\Leftrightarrow$ maximization of $\text{ELBO}(q)$ 
+	\begin{block}{Goal}
+	Approximate posterior distribution $p(X, \theta)$ by function $q(\theta)$ from parametric family.
 	\end{block}
-	\begin{block}{ADVI}
-	\begin{itemize}
-		\item Transformation of constrained variables
-		\item $q(\theta)$ comes from parametric family (usually $\mathcal{N}(\mu, \text{diag}(\sigma^2))$)
-		\item Stochastic optimization
-		\item Integral differentiation $\Rightarrow$ reparametrization trick
-	\end{itemize}
+	\begin{align*}
+		&\ln p(\mathbf{X}) = \text{KL}(q||p) + \text{ELBO}(q)\\
+		&\qquad\qquad\:\qquad\Updownarrow\qquad\qquad\Updownarrow\\
+		&\int q(\bm{\theta}) \ln \frac{q(\bm{\theta})}{p(\bm{\theta}|\mathbf{X})} \text{d}\bm{\theta}
+	\quad
+		\int q(\bm{\theta}) \ln \frac{p(\mathbf{X}, \bm{\theta})}{q(\bm{\theta})} \text{d}\bm{\theta}
+	\end{align*}
+	\vspace{-0.3cm}
+	\begin{block}{}
+		\begin{center}
+			Minimization of $\mathbf{\text{\textbf{KL}}\bm{(}q\bm{||}p\bm{)}}$ $\bm\Leftrightarrow$ Maximization of $\mathbf{\text{\textbf{ELBO}}\bm{(}q\bm{)}}$			
+		\end{center}
 	\end{block}
 \end{frame}
 %--------------------------------------------------------------------------------
-\begin{frame}{Neural Networks}
-	\begin{itemize}
-	\item \textbf{Neural networks} predict values of parameters by fitting complex model on the huge dataset
-	\item \textbf{Bayesian Neural Networks} predict the parameters distributions
-	\end{itemize}
-	\begin{figure}
-		\includegraphics[width=1\linewidth]{pres_pics/BNN}
-	\end{figure}
-	
+\begin{frame}{Automatic Differentiation Variational Inference (ADVI)}
+
+\begin{itemize}
+	\item Automatic transformation of constrained variables $\bm{\zeta} = T(\bm{\theta})$; \\
+	Example: $\theta \in \mathbb{R}_{+} \Rightarrow \zeta = T(\theta) = \log \theta$, then $\zeta \in \mathbb{R}.$
+	\vfill
+	\item $q(\bm{\zeta}) = \mathcal{N}(\bm{\mu}, \bm{\Sigma})$, where $\bm{\Sigma}$ is diagonal;\\
+	\begin{block}{}
+	$$\bm{\mu}^*, \bm{\Sigma}^* = \argmax_{\bm{\mu}, \bm{\Sigma}} \text{ELBO}(q)$$
+	\end{block}
+	\vfill
+	\item Stochastic optimization;
+	\vfill
+	\item Reparametrization trick to apply automatic differentiation;
+	\vfill
+	\item Adaptive step-size.
+\end{itemize}
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Difference}	
+	\begin{minipage}[t]{0.47\columnwidth}
+		\textbf{Neural Networks} \\Predict values of parameters by fitting complex model on the huge dataset
+		\begin{figure}
+			\includegraphics[width=1\columnwidth]{pres_pics/BNN_1}
+		\end{figure}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.47\columnwidth}
+		\textbf{Bayesian Neural Networks} \\Predict the parameters of the weights distributions from the dataset
+		\vspace{0.07cm}
+		\begin{figure}
+			\includegraphics[width=1\columnwidth]{pres_pics/BNN_2}
+		\end{figure}
+	\end{minipage}
+	\vfill
 	\hrulefill
 	
 	\scriptsize{http://bit.ly/2rMQuDq}
 
 \end{frame}
 %--------------------------------------------------------------------------------
+\begin{frame}{Deep Learning}
+		\begin{figure}
+			\includegraphics[width=1\columnwidth]{pres_pics/BNN_1}
+		\end{figure}
+		\begin{figure}
+			\includegraphics[width=1\columnwidth]{pres_pics/BNN_2}
+		\end{figure}
+	
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Experiments}
+\begin{itemize}
+	\item Synthetic datasets: moons, circles
+	\item Real data: MNIST
+\end{itemize}
+Goals:
+\begin{itemize}
+	\item investigate influence of different priors on the predictions
+	\item visualize uncertainties in predictions
+	\item analyze the model behaviour
+\end{itemize}
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Experiments}
+
+\end{frame}
+%--------------------------------------------------------------------------------
+\begin{frame}{Experiments}
+
+\end{frame}
+
 
 \end{document} 
