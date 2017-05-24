@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx, epsfig}
 \usepackage{amsmath,mathrsfs,amsfonts,amssymb}
-\usepackage{subfig}
+\usepackage{subfigure}
 \usepackage{floatflt}
 \usepackage{epic,ecltree}
 \usepackage{mathtext}
@@ -175,11 +175,42 @@ Goals:
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Experiments}
-
+	The best priors for moons and circles are gauss and cauchy with hyperprior respectively.
+	\begin{columns}[t]
+		\column{.5\textwidth}
+		\centering
+			\includegraphics[width=4cm,height=3cm]{pres_pics/inv_cauchy_ppm.png}\ \includegraphics[width=4cm,height=3cm]{pres_pics/inv_cachy_uncert.png}
+		\column{.5\textwidth}
+		\centering
+		\includegraphics[width=4cm,height=3cm]{pres_pics/inv_gauss_ppm.png}\    \includegraphics[width=4cm,height=3cm]{pres_pics/inv_gauss_uncert.png}
+	\end{columns}
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{Experiments}
+	Including hyperpriors is almost always the best choice if we are unsure about prior parameters or data is noisy and hard.
+	\begin{columns}[t]
+		\column{.3\textwidth}
+		\centering
+		\includegraphics[width=4cm,height=3cm]{pres_pics/h_cauchy.png}\ \includegraphics[width=4cm,height=3cm]{pres_pics/p_cauchy.png}
+		\column{.3\textwidth}
+		\centering
+		\includegraphics[width=4cm,height=3cm]{pres_pics/h_gauss.png}\    \includegraphics[width=4cm,height=3cm]{pres_pics/p_gauss.png}
+		\column{.3\textwidth}
+		\centering
+		\includegraphics[width=4cm,height=3cm]{pres_pics/h_laplace.png}\    \includegraphics[width=4cm,height=3cm]{pres_pics/p_laplace.png}
+	\end{columns}
+\end{frame}
 
+\begin{frame}{Experiments}
+	Laplace prior does indeed provide sparser solutions compared to cauchy or gauss.
+	\begin{columns}[t]
+		\column{.5\textwidth}
+		\centering
+		\includegraphics[width=4cm,height=7cm]{pres_pics/trace_laplace.png}
+		\column{.5\textwidth}
+		\centering
+		\includegraphics[width=4cm,height=7cm]{pres_pics/trace_cauchy.png}
+	\end{columns}
 \end{frame}
 
 
