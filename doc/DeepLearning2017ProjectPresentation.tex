@@ -43,7 +43,8 @@
 	\begin{block}{Goal}
 		Estimate posterior distributions of the model parameters from data
 	\end{block}
-\vspace{0.1cm}
+
+\vfill
 \textbf{Probabilistic Programming:}
 \begin{itemize}
 	\item Uncertainty in predictions;
@@ -304,12 +305,6 @@
 \end{frame}
 %--------------------------------------------------------------------------------
 \begin{frame}{MNIST}
-			\begin{figure}
-		\includegraphics[width=0.6\columnwidth]{pres_pics/MNIST}
-	\end{figure}
-\end{frame}
-%--------------------------------------------------------------------------------
-\begin{frame}{MNIST}
 	\begin{minipage}[t]{0.45\columnwidth}
 		\begin{figure}
 			\includegraphics[width=1\columnwidth]{pres_pics/mnist_variance}
@@ -443,11 +438,13 @@
 %--------------------------------------------------------------------------------
 \begin{frame}{Conclusion}
 	\begin{itemize}
-		\item Posterior distribution helps to make conclusions about uncertainties
+		\item Posterior distribution has clear advantages over point estimate for deep learning
 		\vspace{0.2cm}
-		\item Variational inference allows to approximate posterior distribution for high-dimensional data
+		\item Variational inference allows faster approximation of the posterior
 		\vspace{0.2cm}
-		\item Hierarchical models have more degrees of freedom
+		\item Hierarchical models better adapt to diverse datasets
+		\vspace{0.2cm}
+		\item Full bayesian approach is still problematic for very complex models
 	\end{itemize}
 \end{frame}
 
