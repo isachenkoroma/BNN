@@ -131,6 +131,9 @@
 \usepackage{bbm}
 \usepackage{cite}
 
+\DeclareMathOperator*{\argmax}{arg\,max}
+\newcommand{\bX}{\mathbf{X}} 
+
 \author
 {Ilya Zharikov, Roman Isachenko, Artem Bochkarev} 
 \title 
@@ -144,6 +147,43 @@
 \end{abstract}
 
 \section*{Introduction}
+
+\section*{Problem Statement}
+\subsection*{Bayesian approach}
+Let suppose that $\bX$ is the observed data which comes from the unknown distribution $p(\bX)$. 
+This distribution defines our model and is called model evidence. 
+We assume that our model also contains latent variables $\bm{\theta}$. 
+The likelihood function is given by conditional probability distribution $p(\bX| \bm{\theta})$. 
+If we know the prior distribution $p(\bm{\theta})$ over hidden variables, we could use Bayes' theorem to derive the posterior distribution $p(\bm{\theta}| \bX)$
+\begin{equation}
+	p(\bm{\theta}| \bX) = \frac{p(\bX| \bm{\theta}) p(\bm{\theta})}{p(\bX)},
+	\label{bayes_th}
+\end{equation}
+where the evidence function $p(\bX)$ could be obtained by integration over hidden variables
+\[
+	p(\bX) = \int p(\bX| \bm{\theta}) p(\bm{\theta})p(\bm{\theta}).
+\]
+The posterior distribution shows the transformed initial prior knowledge of $\bm{\theta}$ given the observed data $\bX$. 
+
+The main goal of bayesian inference to compute the posterior distribution. 
+In some cases we could derive the posterior in the closed form formula. 
+However, it is impossible for complex models where the latent variables lies in high-dimensional space. 
+The problem is the denominator of~\eqref{bayes_th}, since it is obtained by integrating over all possible values of $\bm{\theta}$.
+
+Suppose that we have the posterior distribution $p(\bm{\theta}| \bX)$, then we could use the usual Maximum A Posteriori (MAP) approach to obtain point estimate for the parameters
+\[
+	\bm{\theta}_{\text{MAP}} = \argmax_{\bm{\theta}} \left[\ln p(\bm{\theta}|\bX)\right] =\argmax_{\bm{\theta}} \left[\ln p(\bX|\bm{\theta}) + \ln p(\bm{\theta})\right].
+\]
+In the case of flat prior distribution $p(\bm{\theta}) = \text{const}$, this estimate coincides with the Maximum Likelihood Estimation (MLE) approach
+\[
+		\bm{\theta}_{\text{MLE}} = \argmax_{\bm{\theta}} \left[\ln p(\bX|\bm{\theta})\right].
+\]
+
+\subsection*{Variational inference}
+
+One of the widely used approach to get posterior distribution is sampling methods such as Metropolis-Hastings, Gibbs, NUTS algorithms. 
+The general idea behind sampling methods is to obtain procedure for generating samples from the true posterior distribution. 
+Most of these methods is based on Monte Carlo Markov Chains (MCMC) procedures. 
 
 \bibliographystyle{unsrt}
 \bibliography{ref.bib}
