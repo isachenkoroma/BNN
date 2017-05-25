@@ -147,6 +147,15 @@
 \end{abstract}
 
 \section*{Introduction}
+Deep learning \cite{Goodfellow-et-al-2016} is one of the most promising and quickly advancing areas of machine learning research. Deep models proved to be superior to other algorithms in many fields such as image classification \cite{krizhevsky2012imagenet}, speech recognition \cite{dahl2012context}, unsupervised learning \cite{le2013building} or reinforcement learning \cite{mnih2015human}. Still, these models are mostly used as some black box in order to solve very difficult problems. We often want to know not only the prediction of the network on given imput, but we would like to understand the uncertainty \cite{blundell2015weight} of the model on this object. It is also desireable to be able to do transfer learning \cite{pan2010survey}, i.e. be able to obtain correct results on new types of data, using previous model as prior knowledge.
+
+On the other side of the spectrum there is bayesian approach \cite{bishop2006pattern}. The main advantage of this framework is that we operate with parameters distribution, instead of their point estimate. This allows us to calculate uncertainties and other useful statistics. Another advantage of the bayesian approach is that we are free to select prior distribution for the parameters of our model \cite{browne2006comparison}, which may include real knowledge or some non-informative assumption. Finally, we may want to build hierarchical models because data is too complex and good priors are hard to guess.
+
+With recent advances in computational technology and GPU it is very compelling to try mixing deep learning with bayesian framework. This would allow us to achive the same high performance of neural network, as well give us more freedom with different prior selection and interpretability of the results using uncertainty prediction. One of the obstacles of such approach is that full bayesian approach is very memory expensive, given huge parameters number (we need to store whole distribution instead of one number). What is more important, calculation of the model evidence is intractable for high-dimensional data. MCMC sampling methods \cite{wasserman2013all} like Metropolis-Hastings or Gibbs are too computationally expensive to perform on big models.
+
+In our project we decided to implement alternative way of approximation of posterior probability, namely ADVI \cite{kucukelbir2016automatic}. The main idea of the method is that we constitute true posterior with some distribution from known parametric family and then we use optimization procedure to minimize their difference.
+
+We conducted computational experiments on several datasets. We used PyMC3 \cite{salvatier2016probabilistic} and Lasagne \cite{lasagne} for probabilistic and deep learning frameworks respectively. We used synthetic datasets as well as MNIST hand-written digits dataset. For this datasets we constructed bayesian neural network models, optimized them with ADVI, played with different priors and drew conclusions from model uncertainty.
 
 \section*{Problem Statement}
 \subsection*{Bayesian approach}
