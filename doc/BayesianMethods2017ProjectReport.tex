@@ -232,6 +232,75 @@ In [{\color{red} link to ADVI}] the Automatic Differentiation Variational Infere
 
 At the first stage ADVI method automatically transform the original constrained variables $\bm{\theta}$ to the unconstrained real-valued variables $\bm{\zeta} = T(\bm{\theta})$. ADVI then defines the corresponding variational problem on the transformed variables, that is, to minimize $\text{KL}\left(q(\bm{\zeta})|| p(\bm{\zeta}| \bX)\right)$. With this transformation, all latent variables are defined on the same space. E.\,g. if some component $\theta$ of $\bm{\theta}$ should be non-negative ($\theta \in \mathbb{R}_+$), then one could use the logarithm transformation $\zeta = T(\theta) = \log(\theta) \in \mathbb{R}$. 
 
+\section*{Numerical experiments}
+
+\subsection*{Datasets}
+
+In our research we used synthetic data for simple binary classification problem that's not linearly separable and real data such as MNIST dataset for multi-classification problem. One can see the detailed description of used data below.
+
+\textbf{Synthetic data}.
+
+Synthetic data is consist of two-dimensional binary classification datasets (moons and circles) that are challenging to certain algorithms, because they are not linearly separable. Also considered datasets are very useful for visualisation.
+
+1. Moons: two interleaving half circles (see fig.\ref{pic: ex_data} (a));
+
+2. Circles: a large circle containing a smaller circle (see fig.\ref{pic: ex_data} (b)).
+
+
+\textbf{Real data}.
+
+As for the real data was selected MNIST\footnote{%
+	\href{https://www.kaggle.com/c/digit-recognizer/data}{MNIST dataset~--- https://www.kaggle.com/c/digit-recognizer/data}} dataset. 
+The data files contain gray-scale images of hand-drawn digits, from zero through nine.
+
+Each image is $28$ pixels in height and $28$ pixels in width, for a total of $784$ pixels in total (see fig.\ref{pic: ex_data} (c)). Each pixel has a single pixel-value associated with it, indicating the lightness or darkness of that pixel, with higher numbers meaning darker. This pixel-value is an integer between $0$ and $255$, inclusive.
+
+\begin{figure}[h]
+	\centering
+	\subfloat[Moons]{\includegraphics[width=0.32\columnwidth]{pres_pics/moons_ex}}
+	\hfill
+	\subfloat[Circles]{\includegraphics[width=0.32\columnwidth]{pres_pics/circles_ex}}
+	\hfill
+	\subfloat[MNIST]{\includegraphics[width=0.32\columnwidth]{pres_pics/mnist_ex}}
+	\caption{Synthetic and real data examples}
+	\label{pic: ex_data}
+\end{figure}
+
+\subsection*{Priors and hyper-priors influence}
+
+On the following one can see the design of the describing experiment.
+
+$\qquad\qquad\qquad\qquad\qquad\qquad\:\:$\textbf{Normal}$\:\:\:\:\:$\textbf{Laplace}$\:\:\:\:\:$\textbf{Cauchy}$\quad\:\:\:\:$\textbf{Flat}
+
+\begin{minipage}[t]{0.1\columnwidth}
+	\vspace{-8.0cm}
+	\rotatebox{90}{\textbf{Hierarchical modeling}$\qquad\:\:\:$\textbf{Fix}}
+\end{minipage}
+\begin{minipage}[t]{0.23\columnwidth}
+	\vspace{-7.9cm}
+	Fixed values
+	
+	\vspace{1.5cm}
+	
+	Half-Normal
+	
+	\vspace{1.5cm}
+	
+	Half-Cauchy
+	
+	\vspace{1.4cm}
+	
+	Inverse-Gamma
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.6\columnwidth}
+	\includegraphics[width=0.93\columnwidth]{pres_pics/all}
+\end{minipage}
+
+So we chose different priors and combined it with different hyper-priors and using ADVI approach obtained the posterior distributions of the model parameters. In this experiment our model is a network with the following structure:
+
+$\bullet$
+
 \section*{Contributions}
 \textbf{Ilya Zharikov} programmed main classes and routines, built project architecture. Also tried to implement experiment on CIFAR-10 and cats-vs-dogs dataset.
 
