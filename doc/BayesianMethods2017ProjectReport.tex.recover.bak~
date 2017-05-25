@@ -1,20 +1,20 @@
 \documentclass[a4paper,14pt]{article} 
-% Этот шаблон документа разработан в 2014 году 
-% Данилом Фёдоровых (danil@fedorovykh.ru) 
-% для использования в курсе 
-% «Документы и презентации в \LaTeX», записанном НИУ ВШЭ 
-% для Coursera.org: http://coursera.org/course/latex . 
-% Исходная версия шаблона —- 
+% Р­С‚РѕС‚ С€Р°Р±Р»РѕРЅ РґРѕРєСѓРјРµРЅС‚Р° СЂР°Р·СЂР°Р±РѕС‚Р°РЅ РІ 2014 РіРѕРґСѓ 
+% Р”Р°РЅРёР»РѕРј Р¤С‘РґРѕСЂРѕРІС‹С… (danil@fedorovykh.ru) 
+% РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РІ РєСѓСЂСЃРµ 
+% В«Р”РѕРєСѓРјРµРЅС‚С‹ Рё РїСЂРµР·РµРЅС‚Р°С†РёРё РІ \LaTeXВ», Р·Р°РїРёСЃР°РЅРЅРѕРј РќРРЈ Р’РЁР­ 
+% РґР»СЏ Coursera.org: http://coursera.org/course/latex . 
+% РСЃС…РѕРґРЅР°СЏ РІРµСЂСЃРёСЏ С€Р°Р±Р»РѕРЅР° вЂ”- 
 % https://www.writelatex.com/coursera/latex/5.3 
 
-% В этом документе преамбула 
+% Р’ СЌС‚РѕРј РґРѕРєСѓРјРµРЅС‚Рµ РїСЂРµР°РјР±СѓР»Р° 
 
-%%% Работа с русским языком 
-\usepackage{cmap} % поиск в PDF 
-\usepackage{mathtext} % русские буквы в формулах 
-\usepackage[T2A]{fontenc} % кодировка 
-\usepackage[cp1251]{inputenc} % кодировка исходного текста 
-\usepackage[english]{babel} % локализация и переносы 
+%%% Р Р°Р±РѕС‚Р° СЃ СЂСѓСЃСЃРєРёРј СЏР·С‹РєРѕРј 
+\usepackage{cmap} % РїРѕРёСЃРє РІ PDF 
+\usepackage{mathtext} % СЂСѓСЃСЃРєРёРµ Р±СѓРєРІС‹ РІ С„РѕСЂРјСѓР»Р°С… 
+\usepackage[T2A]{fontenc} % РєРѕРґРёСЂРѕРІРєР° 
+\usepackage[cp1251]{inputenc} % РєРѕРґРёСЂРѕРІРєР° РёСЃС…РѕРґРЅРѕРіРѕ С‚РµРєСЃС‚Р° 
+\usepackage[english]{babel} % Р»РѕРєР°Р»РёР·Р°С†РёСЏ Рё РїРµСЂРµРЅРѕСЃС‹ 
 \usepackage{indentfirst} 
 \frenchspacing
 \usepackage[shortlabels]{enumitem}
@@ -30,102 +30,102 @@
 \newcommand{\T}{{\text{\footnotesize\sffamily\upshape\mdseries T}}}
 
 
-%%% Дополнительная работа с математикой 
+%%% Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ СЂР°Р±РѕС‚Р° СЃ РјР°С‚РµРјР°С‚РёРєРѕР№ 
 \usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools, bm} % AMS 
-\usepackage{icomma} % "Умная" запятая: $0,2$ —- число, $0, 2$ —- перечисление 
+\usepackage{icomma} % "РЈРјРЅР°СЏ" Р·Р°РїСЏС‚Р°СЏ: $0,2$ вЂ”- С‡РёСЃР»Рѕ, $0, 2$ вЂ”- РїРµСЂРµС‡РёСЃР»РµРЅРёРµ 
 
-%% Номера формул 
-%\mathtoolsset{showonlyrefs=true} % Показывать номера только у тех формул, на которые есть \eqref{} в тексте. 
-%\usepackage{leqno} % Нумереация формул слева 
+%% РќРѕРјРµСЂР° С„РѕСЂРјСѓР» 
+%\mathtoolsset{showonlyrefs=true} % РџРѕРєР°Р·С‹РІР°С‚СЊ РЅРѕРјРµСЂР° С‚РѕР»СЊРєРѕ Сѓ С‚РµС… С„РѕСЂРјСѓР», РЅР° РєРѕС‚РѕСЂС‹Рµ РµСЃС‚СЊ \eqref{} РІ С‚РµРєСЃС‚Рµ. 
+%\usepackage{leqno} % РќСѓРјРµСЂРµР°С†РёСЏ С„РѕСЂРјСѓР» СЃР»РµРІР° 
 
-%% Свои команды 
+%% РЎРІРѕРё РєРѕРјР°РЅРґС‹ 
 \DeclareMathOperator{\sgn}{\mathop{sgn}}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
-%% Перенос знаков в формулах (по Львовскому) 
+%% РџРµСЂРµРЅРѕСЃ Р·РЅР°РєРѕРІ РІ С„РѕСЂРјСѓР»Р°С… (РїРѕ Р›СЊРІРѕРІСЃРєРѕРјСѓ) 
 %\newcommand*{\hm}[1]{#1\nobreak\discretionary{} 
 %	{\hbox{$\mathsurround=0pt #1$}}{}} 
 
-%%% Работа с картинками 
-\usepackage{graphicx} % Для вставки рисунков 
-\setlength\fboxsep{3pt} % Отступ рамки \fbox{} от рисунка 
-\setlength\fboxrule{1pt} % Толщина линий рамки \fbox{} 
-\usepackage{wrapfig} % Обтекание рисунков текстом 
+%%% Р Р°Р±РѕС‚Р° СЃ РєР°СЂС‚РёРЅРєР°РјРё 
+\usepackage{graphicx} % Р”Р»СЏ РІСЃС‚Р°РІРєРё СЂРёСЃСѓРЅРєРѕРІ 
+\setlength\fboxsep{3pt} % РћС‚СЃС‚СѓРї СЂР°РјРєРё \fbox{} РѕС‚ СЂРёСЃСѓРЅРєР° 
+\setlength\fboxrule{1pt} % РўРѕР»С‰РёРЅР° Р»РёРЅРёР№ СЂР°РјРєРё \fbox{} 
+\usepackage{wrapfig} % РћР±С‚РµРєР°РЅРёРµ СЂРёСЃСѓРЅРєРѕРІ С‚РµРєСЃС‚РѕРј 
 \usepackage{float}
 \usepackage{subfig}
 
-%%% Работа с таблицами 
-\usepackage{array,tabularx,tabulary,booktabs} % Дополнительная работа с таблицами 
-\usepackage{longtable} % Длинные таблицы 
-\usepackage{multirow} % Слияние строк в таблице 
+%%% Р Р°Р±РѕС‚Р° СЃ С‚Р°Р±Р»РёС†Р°РјРё 
+\usepackage{array,tabularx,tabulary,booktabs} % Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ СЂР°Р±РѕС‚Р° СЃ С‚Р°Р±Р»РёС†Р°РјРё 
+\usepackage{longtable} % Р”Р»РёРЅРЅС‹Рµ С‚Р°Р±Р»РёС†С‹ 
+\usepackage{multirow} % РЎР»РёСЏРЅРёРµ СЃС‚СЂРѕРє РІ С‚Р°Р±Р»РёС†Рµ 
 
-%%% Теоремы 
-\theoremstyle{plain} % Это стиль по умолчанию, его можно не переопределять. 
-\newtheorem{theorem}{Теорема}[section] 
-\newtheorem{proposition}[theorem]{Утверждение}
+%%% РўРµРѕСЂРµРјС‹ 
+\theoremstyle{plain} % Р­С‚Рѕ СЃС‚РёР»СЊ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ, РµРіРѕ РјРѕР¶РЅРѕ РЅРµ РїРµСЂРµРѕРїСЂРµРґРµР»СЏС‚СЊ. 
+\newtheorem{theorem}{РўРµРѕСЂРµРјР°}[section] 
+\newtheorem{proposition}[theorem]{РЈС‚РІРµСЂР¶РґРµРЅРёРµ}
 
-\theoremstyle{definition} % "Определение" 
-\newtheorem{corollary}{Следствие}[theorem] 
-\newtheorem{problem}{Задача}[section] 
+\theoremstyle{definition} % "РћРїСЂРµРґРµР»РµРЅРёРµ" 
+\newtheorem{corollary}{РЎР»РµРґСЃС‚РІРёРµ}[theorem] 
+\newtheorem{problem}{Р—Р°РґР°С‡Р°}[section] 
 
-\theoremstyle{remark} % "Примечание" 
-\newtheorem*{nonum}{Решение} 
+\theoremstyle{remark} % "РџСЂРёРјРµС‡Р°РЅРёРµ" 
+\newtheorem*{nonum}{Р РµС€РµРЅРёРµ} 
 
-%%% Программирование 
-\usepackage{etoolbox} % логические операторы
+%%% РџСЂРѕРіСЂР°РјРјРёСЂРѕРІР°РЅРёРµ 
+\usepackage{etoolbox} % Р»РѕРіРёС‡РµСЃРєРёРµ РѕРїРµСЂР°С‚РѕСЂС‹
 
-%%% Страница 
-\usepackage{extsizes} % Возможность сделать 14-й шрифт 
-\usepackage{geometry} % Простой способ задавать поля 
+%%% РЎС‚СЂР°РЅРёС†Р° 
+\usepackage{extsizes} % Р’РѕР·РјРѕР¶РЅРѕСЃС‚СЊ СЃРґРµР»Р°С‚СЊ 14-Р№ С€СЂРёС„С‚ 
+\usepackage{geometry} % РџСЂРѕСЃС‚РѕР№ СЃРїРѕСЃРѕР± Р·Р°РґР°РІР°С‚СЊ РїРѕР»СЏ 
 \geometry{top=20mm} 
 \geometry{bottom=25mm} 
 \geometry{left=20mm} 
 \geometry{right=20mm} 
 % 
-%\usepackage{fancyhdr} % Колонтитулы 
+%\usepackage{fancyhdr} % РљРѕР»РѕРЅС‚РёС‚СѓР»С‹ 
 % \pagestyle{fancy} 
-%\renewcommand{\headrulewidth}{0pt} % Толщина линейки, отчеркивающей верхний колонтитул 
-% \lfoot{Нижний левый} 
-% \rfoot{Нижний правый} 
-% \rhead{Верхний правый} 
-% \chead{Верхний в центре} 
-% \lhead{Верхний левый} 
-% \cfoot{Нижний в центре} % По умолчанию здесь номер страницы 
+%\renewcommand{\headrulewidth}{0pt} % РўРѕР»С‰РёРЅР° Р»РёРЅРµР№РєРё, РѕС‚С‡РµСЂРєРёРІР°СЋС‰РµР№ РІРµСЂС…РЅРёР№ РєРѕР»РѕРЅС‚РёС‚СѓР» 
+% \lfoot{РќРёР¶РЅРёР№ Р»РµРІС‹Р№} 
+% \rfoot{РќРёР¶РЅРёР№ РїСЂР°РІС‹Р№} 
+% \rhead{Р’РµСЂС…РЅРёР№ РїСЂР°РІС‹Р№} 
+% \chead{Р’РµСЂС…РЅРёР№ РІ С†РµРЅС‚СЂРµ} 
+% \lhead{Р’РµСЂС…РЅРёР№ Р»РµРІС‹Р№} 
+% \cfoot{РќРёР¶РЅРёР№ РІ С†РµРЅС‚СЂРµ} % РџРѕ СѓРјРѕР»С‡Р°РЅРёСЋ Р·РґРµСЃСЊ РЅРѕРјРµСЂ СЃС‚СЂР°РЅРёС†С‹ 
 
-\usepackage{setspace} % Интерлиньяж 
-\onehalfspacing % Интерлиньяж 1.5 
-%\doublespacing % Интерлиньяж 2 
-%\singlespacing % Интерлиньяж 1
+\usepackage{setspace} % РРЅС‚РµСЂР»РёРЅСЊСЏР¶ 
+\onehalfspacing % РРЅС‚РµСЂР»РёРЅСЊСЏР¶ 1.5 
+%\doublespacing % РРЅС‚РµСЂР»РёРЅСЊСЏР¶ 2 
+%\singlespacing % РРЅС‚РµСЂР»РёРЅСЊСЏР¶ 1
 \setlength{\parindent}{1cm}
 
-\usepackage{lastpage} % Узнать, сколько всего страниц в документе. 
+\usepackage{lastpage} % РЈР·РЅР°С‚СЊ, СЃРєРѕР»СЊРєРѕ РІСЃРµРіРѕ СЃС‚СЂР°РЅРёС† РІ РґРѕРєСѓРјРµРЅС‚Рµ. 
 
-\usepackage{soul} % Модификаторы начертания 
+\usepackage{soul} % РњРѕРґРёС„РёРєР°С‚РѕСЂС‹ РЅР°С‡РµСЂС‚Р°РЅРёСЏ 
 
 \usepackage{hyperref} 
 \usepackage[usenames,dvipsnames,svgnames,table,rgb]{xcolor} 
-\hypersetup{ % Гиперссылки 
-	unicode=true, % русские буквы в раздела PDF 
-	pdftitle={Заголовок}, % Заголовок 
-	pdfauthor={Автор}, % Автор 
-	pdfsubject={Тема}, % Тема 
-	pdfcreator={Создатель}, % Создатель 
-	pdfproducer={Производитель}, % Производитель 
-	pdfkeywords={keyword1} {key2} {key3}, % Ключевые слова 
-	colorlinks=true, % false: ссылки в рамках; true: цветные ссылки 
-	linkcolor=red, % внутренние ссылки 
-	citecolor=black, % на библиографию 
-	filecolor=magenta, % на файлы
-	urlcolor=blue % на URL 
+\hypersetup{ % Р“РёРїРµСЂСЃСЃС‹Р»РєРё 
+	unicode=true, % СЂСѓСЃСЃРєРёРµ Р±СѓРєРІС‹ РІ СЂР°Р·РґРµР»Р° PDF 
+	pdftitle={Р—Р°РіРѕР»РѕРІРѕРє}, % Р—Р°РіРѕР»РѕРІРѕРє 
+	pdfauthor={РђРІС‚РѕСЂ}, % РђРІС‚РѕСЂ 
+	pdfsubject={РўРµРјР°}, % РўРµРјР° 
+	pdfcreator={РЎРѕР·РґР°С‚РµР»СЊ}, % РЎРѕР·РґР°С‚РµР»СЊ 
+	pdfproducer={РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊ}, % РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊ 
+	pdfkeywords={keyword1} {key2} {key3}, % РљР»СЋС‡РµРІС‹Рµ СЃР»РѕРІР° 
+	colorlinks=true, % false: СЃСЃС‹Р»РєРё РІ СЂР°РјРєР°С…; true: С†РІРµС‚РЅС‹Рµ СЃСЃС‹Р»РєРё 
+	linkcolor=red, % РІРЅСѓС‚СЂРµРЅРЅРёРµ СЃСЃС‹Р»РєРё 
+	citecolor=black, % РЅР° Р±РёР±Р»РёРѕРіСЂР°С„РёСЋ 
+	filecolor=magenta, % РЅР° С„Р°Р№Р»С‹
+	urlcolor=blue % РЅР° URL 
 } 
 
-\usepackage{csquotes} % Еще инструменты для ссылок 
+\usepackage{csquotes} % Р•С‰Рµ РёРЅСЃС‚СЂСѓРјРµРЅС‚С‹ РґР»СЏ СЃСЃС‹Р»РѕРє 
 
 %\usepackage[style=authoryear,maxcitenames=2,backend=biber,sorting=nty]{biblatex} 
 
-\usepackage{multicol} % Несколько колонок 
+\usepackage{multicol} % РќРµСЃРєРѕР»СЊРєРѕ РєРѕР»РѕРЅРѕРє 
 
-\usepackage{tikz} % Работа с графикой 
+\usepackage{tikz} % Р Р°Р±РѕС‚Р° СЃ РіСЂР°С„РёРєРѕР№ 
 \usepackage{pgfplots} 
 \usepackage{pgfplotstable} 
 \usepackage{bbm}
@@ -223,7 +223,7 @@ This lower bound can be expressed in the following way
 \begin{align}
 \nonumber \text{ELBO}(q) &= \int q(\bm{\theta}) \ln \left[ \frac{p(\bX, \bm{\theta}) }{q(\bm{\theta})} \right] d \bm{\theta}  = \\\nonumber&= \int q(\bm{\theta}) \ln p(\bX, \bm{\theta}) d \bm{\theta} - \int q(\bm{\theta}) \ln q(\bm{\theta}) d \bm{\theta} = \\
 &= \mathbb{E}_{q(\bm{\theta})} \left[\ln p(\bX, \bm{\theta})  \right] - \mathbb{E}_{q(\bm{\theta})} \left[ \ln q(\bm{\theta})  \right].
-\label{ELBO}
+\label{E
 \end{align}
 
 The joint probability distribution $p(\bX, \bm{\theta})$ is given by product of likelihood function $p(\bX)$ and prior distribution $p(\bm{\theta})$.
@@ -239,28 +239,8 @@ p(\bX, \bm{\zeta}) = p(\bX, T^{-1}(\bm{\zeta})) |\det J_{T^{-1}}(\bm{\zeta})|,
 \]
 where $J_{T^{-1}}(\bm{\zeta})$ is the Jacobian of the inverse $T$ transformation.
 
-The lower bound~\eqref{ELBO} in real coordinate space is given by
-\begin{equation}
-	\text{ELBO}(q(\bm{\zeta})) = \mathbb{E}_{q(\bm{\zeta})} \left[ \ln p(\bX, T^{-1}(\bm{\zeta})) + \ln |\det J_{T^{-1}}(\bm{\zeta})| \right] - \mathbb{E}_{q(\bm{\zeta})} \left[ \ln q(\bm{\zeta})  \right].
-	\label{ELBO_real}
-\end{equation}
+The problem~\eqref{minKL_maxELBO} for the lower bound
 
-The next stage of the ADVI algorithm includes stochastic optimization. Firstly, we assume that $q(\bm{\zeta})$ comes from fixed parametric family. It allows us to avoid variational optimization and replace it by parameter optimization. Usually ADVI uses $\mathcal{N}(\bm{\mu}, \bm{\Sigma})$ family with diagonal $\bm{\Sigma}$. The general positive-definite form of the covariance matrix $\bm{\Sigma}$ is also possible, but it leads to excessive computations. After this parametrization the problem~\eqref{minKL_maxELBO} is equivalent to
-\[
-	\bm{\mu}^*, \bm{\Sigma}^* = \argmax_{\bm{\mu}, \bm{\Sigma}} \text{ELBO}(q).
-\]
-
-The solution of this problem is obtained using stochastic optimization. However, we cannot directly use automatic differentiation on the ELBO. This is because the objective function is expectation over optimized parameters. To avoid this problem one could use elliptical standardization as reparametrization trick~[{\color{red} link}]. We convert the Gaussian variational approximation to the standard Gaussian $\bm{\eta} = S(\bm{\zeta})$
-\[
-	q(\bm{\eta}) = \mathcal{N}(\bm{\eta}|0, \mathbf{I}).
-\]
-The standardization transforms the variational lower bound from\eqref{ELBO_real} into
-\begin{multline*}
-\text{ELBO}(q(\bm{\eta})) = \mathbb{E}_{ \mathcal{N}(\bm{\eta}|0, \mathbf{I})} \Bigl[ \ln p\left(\bX, T^{-1}(S^{-1}(\bm{\eta}))\right) + \\ + \ln |\det J_{T^{-1}}(S^{-1}(\bm{\eta}))| \Bigr] - \mathbb{E}_{\mathcal{N}(\bm{\eta}|0, \mathbf{I})} \left[ \ln q(\bm{\eta})  \right].
-\end{multline*}
-Now the expectation is independent of the optimized parameters and we can easily compute gradients over $\bm{\mu}$ and $\bm{\Sigma}$.
-
-In the original paper a new adaptive step-size gradient sequence was proposed. This sequence is implemented in used frameworks. But it is of no interest for our research.
 
 \section*{Numerical experiments}
 
