@@ -143,19 +143,19 @@
 \begin{document} 
 \maketitle
 \begin{abstract}
-	The recent advances in deep learning allow us to solve really hard real word problems with high accuracy. What these methods lack is interpretability of the model and uncertainty guarantees for the predictions. Bayesian framework allows to solve both this two issues, and with recent development in variational inference technique it is possible to take the best of two worlds and implement bayesian neural network. Our project is dedicated to testing different priors for neurons weights and exploring advantages and disadvantages of bayesian approach in deep learning.
+	The recent advances in deep learning allow us to solve really hard real word problems with high accuracy. What these methods lack is interpretability of the model and uncertainty guarantees for the predictions. Bayesian framework allows to solve both these two issues, and with recent development in variational inference technique it is possible to take the best of two worlds and implement bayesian neural network. Our project is dedicated to testing different priors for neurons weights and exploring advantages and disadvantages of bayesian approach in deep learning.
 \end{abstract}
 
 \section*{Introduction}
-Deep learning \cite{Goodfellow-et-al-2016} is one of the most promising and quickly advancing areas of machine learning research. Deep models proved to be superior to other algorithms in many fields such as image classification \cite{krizhevsky2012imagenet}, speech recognition \cite{dahl2012context}, unsupervised learning \cite{le2013building} or reinforcement learning \cite{mnih2015human}. Still, these models are mostly used as some black box in order to solve very difficult problems. We often want to know not only the prediction of the network on given imput, but we would like to understand the uncertainty \cite{blundell2015weight} of the model on this object. It is also desireable to be able to do transfer learning \cite{pan2010survey}, i.e. be able to obtain correct results on new types of data, using previous model as prior knowledge.
+Deep learning is one of the most promising and quickly advancing areas of machine learning research~\cite{Goodfellow-et-al-2016}. Deep models proved to be superior to other algorithms in many fields such as image classification \cite{krizhevsky2012imagenet}, speech recognition~\cite{dahl2012context}, unsupervised learning~\cite{le2013building} and reinforcement learning~\cite{mnih2015human}. Still, these models are mostly used as some black box in order to solve complicated problems. We often want to know not only the prediction of the network on given input, but we would like to understand the uncertainty~\cite{blundell2015weight} of the model on this object. It is also desirable to be able to do transfer learning~\cite{pan2010survey}, i.e. be able to obtain correct results on new types of data, using previous model as prior knowledge.
 
-On the other side of the spectrum there is bayesian approach \cite{bishop2006pattern}. The main advantage of this framework is that we operate with parameters distribution, instead of their point estimate. This allows us to calculate uncertainties and other useful statistics. Another advantage of the bayesian approach is that we are free to select prior distribution for the parameters of our model \cite{browne2006comparison}, which may include real knowledge or some non-informative assumption. Finally, we may want to build hierarchical models because data is too complex and good priors are hard to guess.
+On the other side of the spectrum there is bayesian approach~\cite{bishop2006pattern}. The main advantage of this framework is that we operate with parameters distribution, instead of their point estimation. This allows us to calculate uncertainties in predictions and representations. Another advantage of the bayesian approach is that we are free to select prior distribution for the parameters of our model~\cite{browne2006comparison}, which may include real knowledge or some non-informative assumption. Finally, we may want to build hierarchical models because data is too complex and good priors are hard to guess.
 
-With recent advances in computational technology and GPU it is very compelling to try mixing deep learning with bayesian framework. This would allow us to achive the same high performance of neural network, as well give us more freedom with different prior selection and interpretability of the results using uncertainty prediction. One of the obstacles of such approach is that full bayesian approach is very memory expensive, given huge parameters number (we need to store whole distribution instead of one number). What is more important, calculation of the model evidence is intractable for high-dimensional data. MCMC sampling methods \cite{wasserman2013all} like Metropolis-Hastings or Gibbs are too computationally expensive to perform on big models.
+With recent advances in computational technology and GPU it is very compelling to try mixing deep learning with bayesian framework. This would allow us to achieve the same high performance of neural network, as well give us more freedom with different prior selection and interpretability of the results using uncertainty prediction. One of the obstacles for such approach is that full bayesian inference is very memory expensive, given huge parameters number (we need to store whole distribution instead of one point). What is more important, calculation of the model evidence is intractable for high-dimensional data. MCMC sampling methods~\cite{wasserman2013all} like Metropolis-Hastings or Gibbs are too computationally expensive to perform on big models.
 
-In our project we decided to implement alternative way of approximation of posterior probability, namely ADVI \cite{kucukelbir2016automatic}. The main idea of the method is that we constitute true posterior with some distribution from known parametric family and then we use optimization procedure to minimize their difference.
+In our project we decided to implement alternative way for approximation of posterior probability, namely ADVI~\cite{kucukelbir2016automatic}. The main idea of the method is that we constitute true posterior with some distribution from known parametric family and then we use stochastic optimization procedure to minimize their difference.
 
-We conducted computational experiments on several datasets. We used PyMC3 \cite{salvatier2016probabilistic} and Lasagne \cite{lasagne} for probabilistic and deep learning frameworks respectively. We used synthetic datasets as well as MNIST hand-written digits dataset. For this datasets we constructed bayesian neural network models, optimized them with ADVI, played with different priors and drew conclusions from model uncertainty.
+We conducted computational experiments on several datasets. We used\\ PyMC3~\cite{salvatier2016probabilistic} and Lasagne~\cite{lasagne} for probabilistic and deep learning frameworks respectively. We used synthetic datasets as well as MNIST hand-written digits dataset. For these datasets we constructed bayesian neural network models, optimized them with ADVI, played with different priors and drew conclusions from model uncertainty.
 
 \section*{Problem Statement}
 \subsection*{Bayesian approach}
@@ -165,12 +165,12 @@ We assume that our model also contains latent variables $\bm{\theta}$.
 The likelihood function is given by conditional probability distribution $p(\bX| \bm{\theta})$. 
 If we know the prior distribution $p(\bm{\theta})$ over hidden variables, we could use Bayes' theorem to derive the posterior distribution $p(\bm{\theta}| \bX)$
 \begin{equation}
-	p(\bm{\theta}| \bX) = \frac{p(\bX| \bm{\theta}) p(\bm{\theta})}{p(\bX)},
-	\label{bayes_th}
+p(\bm{\theta}| \bX) = \frac{p(\bX| \bm{\theta}) p(\bm{\theta})}{p(\bX)},
+\label{bayes_th}
 \end{equation}
 where the evidence function $p(\bX)$ could be obtained by integration over hidden variables
 \[
-	p(\bX) = \int p(\bX| \bm{\theta}) p(\bm{\theta})p(\bm{\theta}).
+p(\bX) = \int p(\bX| \bm{\theta}) p(\bm{\theta})p(\bm{\theta}).
 \]
 The posterior distribution shows the transformed initial prior knowledge of $\bm{\theta}$ given the observed data $\bX$. 
 
@@ -179,21 +179,58 @@ In some cases we could derive the posterior in the closed form formula.
 However, it is impossible for complex models where the latent variables lies in high-dimensional space. 
 The problem is the denominator of~\eqref{bayes_th}, since it is obtained by integrating over all possible values of $\bm{\theta}$.
 
-Suppose that we have the posterior distribution $p(\bm{\theta}| \bX)$, then we could use the usual Maximum A Posteriori (MAP) approach to obtain point estimate for the parameters
+Suppose that we have the posterior distribution $p(\bm{\theta}| \bX)$, then we could use the usual Maximum A Posteriori (MAP) approach to obtain point estimation for the parameters
 \[
-	\bm{\theta}_{\text{MAP}} = \argmax_{\bm{\theta}} \left[\ln p(\bm{\theta}|\bX)\right] =\argmax_{\bm{\theta}} \left[\ln p(\bX|\bm{\theta}) + \ln p(\bm{\theta})\right].
+\bm{\theta}_{\text{MAP}} = \argmax_{\bm{\theta}} \left[\ln p(\bm{\theta}|\bX)\right] =\argmax_{\bm{\theta}} \left[\ln p(\bX|\bm{\theta}) + \ln p(\bm{\theta})\right].
 \]
-In the case of flat prior distribution $p(\bm{\theta}) = \text{const}$, this estimate coincides with the Maximum Likelihood Estimation (MLE) approach
+In the case of flat prior distribution $p(\bm{\theta}) = \text{const}$, this estimation coincides with the Maximum Likelihood Estimation (MLE) approach
 \[
-		\bm{\theta}_{\text{MLE}} = \argmax_{\bm{\theta}} \left[\ln p(\bX|\bm{\theta})\right].
+\bm{\theta}_{\text{MLE}} = \argmax_{\bm{\theta}} \left[\ln p(\bX|\bm{\theta})\right].
 \]
 
 \subsection*{Variational inference}
 
 One of the widely used approach to get posterior distribution is sampling methods such as Metropolis-Hastings, Gibbs, NUTS algorithms. 
 The general idea behind sampling methods is to obtain procedure for generating samples from the true posterior distribution. 
-Most of these methods is based on Monte Carlo Markov Chains (MCMC) procedures. 
+Most of these methods are based on Monte Carlo Markov Chains (MCMC) procedures.
+The main disadvantages of such methods is that they are very slow for high-dimensional data.
 
+In order to deal with high-dimensional data we could use analytical deterministic approximation of the posterior. 
+Variational inference approach determines the function which is the closest to the desired posterior distribution. 
+The distance is measured by Kullback-Leibler divergence
+\[
+\text{KL}(q||p) = -\int q(y) \ln \left[\frac{p(y)}{q(y)}\right]dy.
+\]
+This distance function is non-negative and equals to zero iff $q \equiv p$
+\[
+\text{KL}(q||p) \geq 0; \quad \text{KL}(q||p) = 0 \Leftrightarrow q \equiv p.
+\]
+But the problem is that we don't know the true posterior and can't minimize the Kullback-Leibler divergence explicitly. 
+Variational inference approach solves the equivalent task which follows from the equation:
+\begin{multline*}
+\ln p(\bX) = \int q(\bm{\theta}) \ln p(\bX) d \bm{\theta} = \int q(\bm{\theta}) \ln \left[ \frac{p(\bX, \bm{\theta})}{p(\bm{\theta} | \bX)} \right] d \bm{\theta} = \\
+= \int q(\bm{\theta}) \ln \left[ \frac{q(\bm{\theta})p(\bX, \bm{\theta}) }{p(\bm{\theta} | \bX)q(\bm{\theta})} \right] d \bm{\theta} = 
+- \int q(\bm{\theta}) \ln \left[ \frac{p(\bm{\theta} | \bX)}{q(\bm{\theta})} \right] d \bm{\theta} + \\
++ \int q(\bm{\theta}) \ln \left[ \frac{p(\bX, \bm{\theta}) }{q(\bm{\theta})} \right] d \bm{\theta} = \text{KL}(q||p) + \text{ELBO}(q).
+\end{multline*}
+Here, the log model evidence function is decomposed into the Kullback-Leibler divergence and the Empirical Lower BOund (ELBO) term. 
+Since the left hand side is independent of $q$ function, the minimization of $\text{KL}(q||p)$ is equivalent to the maximization of $\text{ELBO}(q)$ which we can easily compute. 
+\begin{equation}
+q^* = \argmin_{q} \text{KL}(q||p) = \argmax_{q} \text{ELBO}(q).
+\label{minKL_maxELBO}
+\end{equation}
+This lower bound can be expressed in the following way
+\begin{align*}
+\text{ELBO}(q) &= \int q(\bm{\theta}) \ln \left[ \frac{p(\bX, \bm{\theta}) }{q(\bm{\theta})} \right] d \bm{\theta}  = \\&= \int q(\bm{\theta}) \ln p(\bX, \bm{\theta}) d \bm{\theta} - \int q(\bm{\theta}) \ln q(\bm{\theta}) d \bm{\theta} = \\
+&= \mathbb{E}_{q(\bm{\theta})} \left[\ln p(\bX, \bm{\theta})  \right] - \mathbb{E}_{q(\bm{\theta})} \left[ \ln q(\bm{\theta})  \right].
+\end{align*}
+
+The joint probability distribution $p(\bX, \bm{\theta})$ is given by product of likelihood function $p(\bX)$ and prior distribution $p(\bm{\theta})$.
+
+\subsection*{Automatic differentiation variational inference}
+In [{\color{red} link to ADVI}] the Automatic Differentiation Variational Inference (ADVI) method was proposed to solve the problem~\eqref{minKL_maxELBO}. 
+
+At the first stage ADVI method automatically transform the original constrained variables $\bm{\theta}$ to the unconstrained real-valued variables $\bm{\zeta} = T(\bm{\theta})$. ADVI then defines the corresponding variational problem on the transformed variables, that is, to minimize $\text{KL}\left(q(\bm{\zeta})|| p(\bm{\zeta}| \bX)\right)$. With this transformation, all latent variables are defined on the same space. E.\,g. if some component $\theta$ of $\bm{\theta}$ should be non-negative ($\theta \in \mathbb{R}_+$), then one could use the logarithm transformation $\zeta = T(\theta) = \log(\theta) \in \mathbb{R}$. 
 
 \section*{Contributions}
 \textbf{Ilya Zharikov} programmed main classes and routines, built project architecture. Also tried to implement experiment on CIFAR-10 and cats-vs-dogs dataset.
