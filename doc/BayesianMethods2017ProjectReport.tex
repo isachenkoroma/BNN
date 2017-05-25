@@ -262,6 +262,8 @@ Now the expectation is independent of the optimized parameters and we can easily
 
 In the original paper a new adaptive step-size gradient sequence was proposed. This sequence is implemented in used frameworks. But it is of no interest for our research.
 
+\newpage
+
 \section*{Numerical experiments}
 
 \subsection*{Datasets}
@@ -329,7 +331,177 @@ $\qquad\qquad\qquad\qquad\qquad\qquad\:\:$\textbf{Normal}$\:\:\:\:\:$\textbf{Lap
 
 So we chose different priors and combined it with different hyper-priors and using ADVI approach obtained the posterior distributions of the model parameters. In this experiment our model is a network with the following structure:
 
-$\bullet$
+$\bullet$ DenseLayer with $5$ units of the layer and \textit{tanh} as activation function;
+
+$\bullet$ DenseLayer with $5$ units of the layer and \textit{tanh} as activation function;
+
+$\bullet$ DenseLayer with $2$ units of the layer and \textit{softmax}.
+
+In this experiment we try different values of the noise parameter. As expected with high noise parameter it is hard to reconstruct the initial pattern (it is easy to see the form of it on the fig.\ref{pic: ex_data}). In our experiment we considered the hardest datasets. On the picture below one can see the best approach that coped with the task for circles dataset ($700$ samples for training, $300$ for validation):
+
+\begin{minipage}[t]{0.32\columnwidth}
+	\vspace{0.9cm}
+	\textbf{Prior:} Cauchy\\
+	\textbf{Hyperprior:} \\Inverse-Gamma\\
+	\textbf{Accuracy:} 0.735
+\end{minipage}
+\begin{minipage}[t]{0.32\columnwidth}
+	\centering 
+	\textbf{Posterior}\\\textbf{Probability}
+	\vspace{-0.3cm}
+	\includegraphics[height=4cm]{pres_pics/circles_inv_cauchy_ppm}
+\end{minipage}
+\begin{minipage}[t]{0.32\columnwidth}
+	\centering
+	\vspace{0.06cm}
+	\textbf{Uncertainty}
+	
+	\vspace{0.33cm}
+	
+	\includegraphics[height=4cm]{pres_pics/circles_inv_cauchy_uncert}
+\end{minipage}
+
+Here one can see the same picture that also demonstrates posterior probability over the fist class and uncertainty in predictions of the best approach but for moons datasets ($700$ samples for training, $300$ for validation):
+
+\begin{minipage}[t]{0.32\columnwidth}
+	\vspace{0.9cm}
+	\textbf{Prior:} Normal \\
+	\textbf{Hyperprior:} \\Inverse-Gamma\\
+	\textbf{Accuracy:} 0.851
+\end{minipage}
+\begin{minipage}[t]{0.32\columnwidth}
+	\centering 
+	\textbf{Posterior}\\\textbf{Probability}
+	\vspace{-0.3cm}
+	\includegraphics[height=4cm]{pres_pics/moons_inv_gauss_ppm}
+\end{minipage}
+\begin{minipage}[t]{0.32\columnwidth}
+	\centering
+	\vspace{0.06cm}
+	\textbf{Uncertainty}
+	
+	\vspace{0.33cm}
+	
+	\includegraphics[height=4cm]{pres_pics/moons_inv_gauss_uncert}
+\end{minipage}
+
+\vspace{\baselineskip}
+
+In the next experiment we compare the results of approaches that used fixed values for hyper-parameters and approaches that use hyper-priors. The next pictures demonstrates the posterior probability over the first class for different priors on the circles datasets:
+
+\begin{minipage}[t]{0.32\columnwidth}
+	\vspace{0.6cm}
+	\textbf{Hyperprior:} \\Fixed values
+\end{minipage}
+\begin{minipage}[t]{0.32\columnwidth}
+	\centering
+	\textbf{Prior:} Normal
+	
+	\vspace{0.1cm}
+	
+	\includegraphics[height=4cm]{pres_pics/p_gauss}
+\end{minipage}
+\begin{minipage}[t]{0.32\columnwidth}
+	\centering
+	\textbf{Prior:} Laplace
+	\vspace{-0.075cm}
+	\includegraphics[height=4cm]{pres_pics/p_laplace}
+\end{minipage}
+
+\vspace{0.5cm}
+
+\begin{minipage}[t]{0.355\columnwidth}
+	\vspace{-3.6cm}
+	\textbf{Hyperprior:} \\Inverse-Gamma
+\end{minipage}
+\begin{minipage}[t]{0.32\columnwidth}
+	\includegraphics[height=4cm]{pres_pics/h_gauss}
+\end{minipage}
+\begin{minipage}[t]{0.32\columnwidth}
+	\includegraphics[height=4cm]{pres_pics/h_laplace}
+\end{minipage}
+
+\vspace{\baselineskip}
+
+In the next experiment we visualize the estimated posterior distributions of the weights from the last layer for different priors: Laplace and Cauchy. As expected on the fig.~\ref{pic: sparsity} we can see that for Laplace prior many of weights are near to zero compared to Cauchy prior. Hence we obtain that Laplace priors is connected to the sparse solution as it should be.
+
+\begin{figure}[h]
+	\centering
+	\subfloat{\includegraphics[width=0.49\columnwidth]{pres_pics/trace_laplace_w3}}
+	\hfill
+	\subfloat{\includegraphics[width=0.49\columnwidth]{pres_pics/trace_cauchy_w3}}
+	\caption{Estimated posterior distributions of the weights from the last layer}
+	\label{pic: sparsity}
+\end{figure}
+
+Thus, according to the results of the all conducted experiments on the synthetic data we can formulate several \textbf{conclusions:}
+
+$\bullet$ variational inference allows to approximate posterior
+distribution;
+
+$\bullet$ posterior distribution helps to make conclusions about certainties;
+
+$\bullet$ hyper-priors is almost all gives the better results, especially on noisy data.
+
+\subsection*{Uncertainty in predictions on real data}
+
+In this experiment we use MNIST datasets (50000 for training ad 10000 for validation). The main goal was to use ADVI approach on real data with several classes and analyze the uncertainties in predictions. Here we used a network with the following structure:
+
+\vspace{\baselineskip}
+
+\begin{minipage}[t]{0.64\columnwidth}
+	\vspace{-6cm}
+	$\bullet$ Conv2DLayer with $32$ filters of the size $5\times 5$ and \textit{tanh} nonlinearity;
+	
+	$\bullet$ MaxPool2DLayer where pool size is equal to $2\times2$;
+	
+	
+	$\bullet$ Conv2DLayer with $32$ filters of the size $5\times 5$ and \textit{tanh} nonlinearity;
+	
+	$\bullet$ MaxPool2DLayer where pool size is equal to $2\times2$;
+	
+	
+	$\bullet$ DenseLayer with $64$ units of the layer and \textit{tanh} as activation function;
+	
+	$\bullet$ DenseLayer with $10$ units of the layer and \textit{softmax}.
+\end{minipage}
+\hspace{0.3cm}
+\begin{minipage}[t]{0.3\columnwidth}
+	\includegraphics[width=1\columnwidth]{pres_pics/MNIST}
+\end{minipage}
+
+
+\vspace{\baselineskip}
+
+Using the estimation of posterior distributions of the considered neural network parameters we generated $100$ samples for each object from validation dataset and computed the variances of predictions over all classes and approximated expected error rate, see fig.~\ref{pic: var_eer}.
+
+\begin{figure}[h]
+	\centering
+	\subfloat{\includegraphics[width=0.49\columnwidth]{pres_pics/mnist_variance}}
+	\hfill
+	\subfloat{\includegraphics[width=0.49\columnwidth]{pres_pics/mnist_eer}}
+	\caption{Variance over classes and expected error rate}
+	\label{pic: var_eer}
+\end{figure}
+
+On the next picture (see fig.~\ref{pic: high_conf}) one can see the most interesting cases for the neural network. On these pictures our model made a mistale but the expected error rate was equal to zero. 
+The pictures with the lowest confidence were shown on the fig.~\ref{pic: low_conf} .
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.74\columnwidth]{pres_pics/high_conf}
+	\caption{Misclassified pictures with zero expected error rate}
+	\label{pic: high_conf}
+\end{figure}
+\vspace{-0.2cm}
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.74\columnwidth]{pres_pics/low_conf}
+	\caption{Pictures with the lowest confidence}
+	\label{pic: low_conf}
+\end{figure}
+
+\newpage
 
 \section*{Contributions}
 \textbf{Ilya Zharikov} programmed main classes and routines, built project architecture. Also tried to implement experiment on CIFAR-10 and cats-vs-dogs dataset.
@@ -339,6 +511,9 @@ $\bullet$
 \textbf{Artem Bochkarev} conducted experiments and drew conclusions from MNIST dataset.
 
 Everyone were equally involved in creating presentation, writing this report, as well as general project development.
+
+\newpage
+
 \bibliographystyle{unsrt}
 \bibliography{ref.bib}
 \end{document}
