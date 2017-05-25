@@ -232,6 +232,13 @@ In [{\color{red} link to ADVI}] the Automatic Differentiation Variational Infere
 
 At the first stage ADVI method automatically transform the original constrained variables $\bm{\theta}$ to the unconstrained real-valued variables $\bm{\zeta} = T(\bm{\theta})$. ADVI then defines the corresponding variational problem on the transformed variables, that is, to minimize $\text{KL}\left(q(\bm{\zeta})|| p(\bm{\zeta}| \bX)\right)$. With this transformation, all latent variables are defined on the same space. E.\,g. if some component $\theta$ of $\bm{\theta}$ should be non-negative ($\theta \in \mathbb{R}_+$), then one could use the logarithm transformation $\zeta = T(\theta) = \log(\theta) \in \mathbb{R}$. 
 
+The joint probability function for transformed latent variables equals 
+\[
+p(\bX, \bm{\zeta}) = p(\bX, T^{-1}(\bm{\zeta}) |\det J_{T^{-1}}(\bm{\zeta})|,
+\]
+where $J_{T^{-1}}(\bm{\zeta})$ is Jacobian of the inverse $T$ transformation.
+
+The function $q(\bm{\zeta})$ comes from fixed parametric family. We denote
 \section*{Numerical experiments}
 
 \subsection*{Datasets}
