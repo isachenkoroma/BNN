@@ -188,6 +188,15 @@ In the case of flat prior distribution $p(\bm{\theta}) = \text{const}$, this est
 \bm{\theta}_{\text{MLE}} = \argmax_{\bm{\theta}} \left[\ln p(\bX|\bm{\theta})\right].
 \]
 
+\subsection*{Hierarchical modelling}
+
+There is one natural addition to previously described bayesian approach, which we will use in our project extensively, namely hierarchical modelling. If we look at bayes theorem, we realize that the prior selection might be very important for model performance. This issue is more critical if we have little data or very complex model. 
+
+Hierarchical modelling solve this problem by allowing us to learn priors from the data itself. We consider prior distribution $p(\bm{\theta})$ of parameter $\bm{\theta}$ to be dependent on some additional hyperparameter $\alpha$. Following full bayesian approach, we need to introduce hyperprior $p(\alpha)$. Expression for posterior distribution becomes
+\begin{equation*}
+p(\bm{\theta}, \alpha| \bX) = \frac{p(\bX| \bm{\theta}, \alpha) p(\bm{\theta}|\alpha) p(\alpha)}{p(\bX)}
+\end{equation*}
+Now we don't have to guess prior distribution, we can learn it from data directly.
 \subsection*{Variational inference}
 
 One of the widely used approach to get posterior distribution is sampling methods such as Metropolis-Hastings, Gibbs, NUTS algorithms. 
@@ -262,7 +271,27 @@ Now the expectation is independent of the optimized parameters and we can easily
 
 In the original paper a new adaptive step-size gradient sequence was proposed. This sequence is implemented in used frameworks. But it is of no interest for our research.
 
-\newpage
+\subsection*{Bayesian neural networks}
+In our experiment we will implement ADVI for deep learning models. In our project, neural network consists of several layers of neurons, output $z$ of each neuron depends on previous layer through some linear combination and activation function:
+\begin{equation*}
+	z = g\big(\sum_{i=1}^{N} w_ix_i + b\big),
+\end{equation*}
+where $x_i$ is the output from previous layer, $w_i$ -- weight corresponding to this output and $b$ is a bias term. The usual approach in deep learning is to use stochastic gradient descent and error backpropagation in order to estimate the parameters of the network.
+
+We will implement bayesian approach, i.e. instead of point estimates, each parameter and each output in the network is probability distribution, the difference between two approaches can be seen on figure \ref{pic:BNN}. Then, we are able to write the new definition for neurons:
+\begin{equation*}
+p(z) = g\big(\sum_{i=1}^{N} p(w_i)p(x_i) + p(b)\big).
+\end{equation*}
+Now we can easily see that our neural network is indeed bayesian model, if we set all the priors for the parameters. After that we can train our network using ADVI instead of backpropagation.
+\begin{figure}[h]
+	\centering
+	\subfloat[Conventional neural network]{\includegraphics[width=0.47\columnwidth]{pres_pics/BNN_1}}
+	\hfill
+	\subfloat[Bayesian neural network]{\includegraphics[width=0.47\columnwidth]{pres_pics/BNN_2}}
+	\caption{Neural networks difference}
+	\label{pic:BNN}
+\end{figure}
+
 
 \section*{Numerical experiments}
 
@@ -506,7 +535,8 @@ The pictures with the lowest confidence were shown on the fig.~\ref{pic: low_con
 	\caption{Pictures with the lowest confidence}
 	\label{pic: low_conf}
 \end{figure}
-
+\section*{Conclusion}
+In this project we investigated bayesian approach for deep learning. We read the latest papers on this issue and understood the theory behind them. We also wrote implementation of bayesian deep model on python and conducted experiments using both synthetic and real data. We played with different configurations and parameters of the model and we drew conclusions which illustrate advantages and disadvantages of presented methods.
 \newpage
 
 \section*{Contributions}
@@ -517,8 +547,6 @@ The pictures with the lowest confidence were shown on the fig.~\ref{pic: low_con
 \textbf{Artem Bochkarev} conducted experiments and drew conclusions from MNIST dataset.
 
 Everyone were equally involved in creating presentation, writing this report, as well as general project development.
-
-\newpage
 
 \bibliographystyle{unsrt}
 \bibliography{ref.bib}
