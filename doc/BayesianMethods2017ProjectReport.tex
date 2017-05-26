@@ -272,17 +272,13 @@ Now the expectation is independent of the optimized parameters and we can easily
 In the original paper a new adaptive step-size gradient sequence was proposed. This sequence is implemented in used frameworks. But it is of no interest for our research.
 
 \subsection*{Bayesian neural networks}
-In our experiment we will implement ADVI for deep learning models. In our project, neural network consists of several layers of neurons, output $z$ of each neuron depends on previous layer through some linear combination and activation function:
+ADVI was implemented for deep learning models. In our project, neural network consists of several layers of neurons, outputs $\mathbf{x}_k$ of layer $k$ depends on layer $k-1$ neurons $\mathbf{x}_{k-1}$ through some linear combination with coefficients $\mathbf{W}_{k-1}$, $\mathbf{b}_{k-1}$ and activation function $g_{k-1}$:
 \begin{equation*}
-	z = g\big(\sum_{i=1}^{N} w_ix_i + b\big),
+	\mathbf{x}_k = g_{k-1}\left(\mathbf{W}_{k-1}\mathbf{x}_{k-1} + \mathbf{b}_{k-1}\right).
 \end{equation*}
-where $x_i$ is the output from previous layer, $w_i$ -- weight corresponding to this output and $b$ is a bias term. The usual approach in deep learning is to use stochastic gradient descent and error backpropagation in order to estimate the parameters of the network.
+The usual deep learning approach is to use stochastic gradient descent and error backpropagation in order to fit the network parameters $\{\mathbf{W}_k$, $\mathbf{b}_k\}$, where $k$ iterates over all network layers. The activation function such as $\textit{tanh}$, $\textit{ReLU}$, $\textit{softmax}$ allows to fit non-linear models.
 
-We will implement bayesian approach, i.e. instead of point estimates, each parameter and each output in the network is probability distribution, the difference between two approaches can be seen on figure \ref{pic:BNN}. Then, we are able to write the new definition for neurons:
-\begin{equation*}
-p(z) = g\big(\sum_{i=1}^{N} p(w_i)p(x_i) + p(b)\big).
-\end{equation*}
-Now we can easily see that our neural network is indeed bayesian model, if we set all the priors for the parameters. After that we can train our network using ADVI instead of backpropagation.
+We implemented bayesian approach, i.e. instead of point estimation, each parameter and each output in the network is given by probability distribution, the difference between two approaches can be seen on fig.~\ref{pic:BNN}. This probability distributions correspond to the priors of the bayesian model described above. The usual models tend to overfit in the case of high-dimensional parameter space. This is exactly the case of deep neural networks, where number of estimated parameters in order of millions. There are some techniques to avoid this problem. The most widely used  is regularization. Adding the term which restricts the model complexity allows to control parameters values. The introducing priors distributions is exactly the same procedure. The normal prior corresponds to $\ell 2$ regularization and the laplace prior~--- $\ell 1$ regularizer.
 \begin{figure}[h]
 	\centering
 	\subfloat[Conventional neural network]{\includegraphics[width=0.47\columnwidth]{pres_pics/BNN_1}}
@@ -478,9 +474,9 @@ $\bullet$ posterior distribution helps to make conclusions about certainties;
 
 $\bullet$ hyperpriors is almost all gives the better results, especially on noisy data.
 
-\subsection*{Uncertainty in predictions on real data}
+\subsection*{Uncertainty in predictions}
 
-In this experiment we used MNIST datasets (50000/10000 objects for training/validation). The main goal was to use ADVI approach on real data with several classes and analyze the uncertainties in predictions. Here we used a network with the following structure:
+In this experiment we used MNIST datasets (50000/10000 objects for training/validation). The main goal was to use ADVI method on real data with several classes and analyze the behaviour of the model. Here we used a network with the following structure:
 
 \vspace{\baselineskip}
 
@@ -508,7 +504,8 @@ In this experiment we used MNIST datasets (50000/10000 objects for training/vali
 
 \vspace{\baselineskip}
 
-Using the estimation of posterior distributions of the considered neural network parameters we generated $100$ samples for each object from validation dataset and computed the variances of predictions over all classes and approximated expected error rate, see fig.~\ref{pic: var_eer}.
+Using the estimated posterior distributions of the considered neural network parameters we generated $100$ samples from it and computed the output of the network.
+In the fig.~\ref{pic: var_eer} the first plot illustrates the variances of predictions over all samples. One could these variances for each class averaged over misclassified objects (blue line), objects with correct prediction (green line) and all objects (red line). The variances for misclassified objects is much higher than for correct. Also one could see that that for digits 2, 7, 8, 9 the results are more dispersed. The second plot shows the histogram of the expected error rate which expresses the fraction of samples for which the prediction is different from the mode of the posterior distribution.
 
 \begin{figure}[h]
 	\centering
@@ -519,32 +516,56 @@ Using the estimation of posterior distributions of the considered neural network
 	\label{pic: var_eer}
 \end{figure}
 
-On the next picture (see fig.~\ref{pic: high_conf}) one can see the most interesting cases for the neural network. On these pictures our model made a mistale but the expected error rate was equal to zero. 
-The pictures with the lowest confidence were shown on the fig.~\ref{pic: low_conf} .
+The fig.~\ref{pic: high_conf} demonstrates the digits from validation sets for which the expected error rate equals zero, but the model makes mistake. It means that our model overconfident about it results, but there is a mistake. There are exactly three of them. 
 
-\begin{figure}[!htb]
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.74\columnwidth]{pres_pics/high_conf}
 	\caption{Misclassified pictures with zero expected error rate}
 	\label{pic: high_conf}
 \end{figure}
 \vspace{-0.2cm}
-\begin{figure}[!htb]
+
+The next picture (see fig.~\ref{pic: high_conf}) shows three digits for which the expected error rate is the highest (about 0.7). For these objects our model is not confidence at all. Also we gives the true labels and models predictions for these examples.
+
+The model accuracy for these dataset is $97.7 \%$. We used the different setup for priors and hypepriors. But the final model which examples shown above includes normal prior with fixed values of hyperparameters.
+
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.74\columnwidth]{pres_pics/low_conf}
 	\caption{Pictures with the lowest confidence}
 	\label{pic: low_conf}
 \end{figure}
+
+\subsection*{Transfer learning}
+
+The bayesian approach allows to use transfer learning approach to build a model on new object recognition data set using pretrained on another dataset model. In order to implement this idea one could place informed priors centered around weights retrieved from this pretrained network. We tried this approach for two real datasets. The first one is CIFAR-10 dataset \footnote{%
+	\href{https://www.cs.toronto.edu/~kriz/cifar.html}{CIFAR-10 dataset~--- https://www.cs.toronto.edu/~kriz/cifar.html}}
+which consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images. The second one is Cats-vs-Dogs\footnote{%
+	\href{https://www.kaggle.com/c/dogs-vs-cats}{Cats-vs-Dogs dataset~--- https://www.kaggle.com/c/dogs-vs-cats}} which consists of 6000 colour images of cats and dogs with diferent sizes. There are 5000 training images and 1000 test images.
+
+Firstly, we tried to train model with the network which were used for MNIST dataset. But we didn't get the good accuracy. 
+
+The pretrained model that we used in this experiment was VGG-19\footnote{%
+\href{ http://www.robots.ox.ac.uk/~vgg/research/very_deep/}{VGG-19 model~---  http://www.robots.ox.ac.uk/$\sim$vgg/research/very\_deep/}}. The architecture for VGG-19 model is given in fig.~\ref{pic::VGG19}. We trained our models on AWS Amazon server\footnote{%
+\href{ https://aws.amazon.com/}{https://aws.amazon.com/}} on g2.2xlarge. Unfortunately, our approach lack of memory in this setup for both datasets. Then we tried to cut off last layers to reduce number of estimated parameters. When we got rid of all dense layers we coped with compiling the model, but it would took days to fit the model. Since that, we didn't get the results for these datasets.
+\begin{figure}
+\centering
+\includegraphics[width=0.9\columnwidth]{pres_pics/VGG19}
+\caption{Architecture of VGG-19 neural network}
+\label{pic::VGG19}
+\end{figure}
+
 \section*{Conclusion}
-In this project we investigated bayesian approach for deep learning. We read the latest papers on this issue and understood the theory behind them. We also wrote implementation of bayesian deep model on python and conducted experiments using both synthetic and real data. We played with different configurations and parameters of the model and we drew conclusions which illustrate advantages and disadvantages of presented methods.
+In this project we investigated bayesian approach for deep learning models. We read the latest papers on this issue and understood the theory behind them. We also wrote implementation of bayesian deep model on python and conducted experiments using both synthetic and real data. We played with different configurations and parameters of the model and we drew conclusions which illustrate advantages and disadvantages of presented methods.
 \newpage
 
 \section*{Contributions}
-\textbf{Ilya Zharikov} programmed main classes and routines, built project architecture. Also tried to implement experiment on CIFAR-10 and cats-vs-dogs dataset.
+\textbf{Ilya Zharikov} programmed main framework for placing priors in the network, built neural networks architectures, implemented experiments on CIFAR-10 and cats-vs-dogs datasets.
 
-\textbf{Roman Isachenko} conducted experiments and drew conclusions from synthetic datasets.
+\textbf{Roman Isachenko} extended the bayesian approach to hierarchical modelling, build VGG-19 network with transfer learning approach.
 
-\textbf{Artem Bochkarev} conducted experiments and drew conclusions from MNIST dataset.
+\textbf{Artem Bochkarev} conducted experiments and drew conclusions from synthetic data and MNIST dataset.
 
 Everyone were equally involved in creating presentation, writing this report, as well as general project development.
 
