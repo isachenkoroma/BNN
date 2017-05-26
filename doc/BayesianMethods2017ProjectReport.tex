@@ -143,11 +143,11 @@
 \begin{document} 
 \maketitle
 \begin{abstract}
-	The recent advances in deep learning allow us to solve really hard real word problems with high accuracy. What these methods lack is interpretability of the model and uncertainty guarantees for the predictions. Bayesian framework allows to solve both these two issues, and with recent development in variational inference technique it is possible to take the best of two worlds and implement bayesian neural network. Our project is dedicated to testing different priors for neurons weights and exploring advantages and disadvantages of bayesian approach in deep learning.
+	The recent advances in deep learning allow us to solve really hard real word problems with high accuracy. What these methods lack is interpretability of the model and uncertainty guarantees for the predictions. Bayesian framework allows us to solve both these two issues, and with recent development in variational inference technique it is possible to take the best of two worlds and implement bayesian neural network. Our project is dedicated to testing different priors for neurons weights and exploring advantages and disadvantages of bayesian approach in deep learning.
 \end{abstract}
 
 \section*{Introduction}
-Deep learning is one of the most promising and quickly advancing areas of machine learning research~\cite{Goodfellow-et-al-2016}. Deep models proved to be superior to other algorithms in many fields such as image classification \cite{krizhevsky2012imagenet}, speech recognition~\cite{dahl2012context}, unsupervised learning~\cite{le2013building} and reinforcement learning~\cite{mnih2015human}. Still, these models are mostly used as some black box in order to solve complicated problems. We often want to know not only the prediction of the network on given input, but we would like to understand the uncertainty~\cite{blundell2015weight} of the model on this object. It is also desirable to be able to do transfer learning~\cite{pan2010survey}, i.e. be able to obtain correct results on new types of data, using previous model as prior knowledge.
+Deep learning is one of the most promising and quickly advancing areas of machine learning research~\cite{Goodfellow-et-al-2016}. Deep models proved to be superior to other algorithms in many fields such as image classification~\cite{krizhevsky2012imagenet}, speech recognition~\cite{dahl2012context}, unsupervised learning~\cite{le2013building} and reinforcement learning~\cite{mnih2015human}. Still, these models are mostly used as some black box in order to solve complicated problems. We often want to know not only the prediction of the network on given input, but we would like to understand the uncertainty~\cite{blundell2015weight} of the model on this object. It is also desirable to be able to do transfer learning~\cite{pan2010survey}, i.e. be able to obtain correct results on new types of data, using previous model as prior knowledge.
 
 On the other side of the spectrum there is bayesian approach~\cite{bishop2006pattern}. The main advantage of this framework is that we operate with parameters distribution, instead of their point estimation. This allows us to calculate uncertainties in predictions and representations. Another advantage of the bayesian approach is that we are free to select prior distribution for the parameters of our model~\cite{browne2006comparison}, which may include real knowledge or some non-informative assumption. Finally, we may want to build hierarchical models because data is too complex and good priors are hard to guess.
 
@@ -159,7 +159,7 @@ We conducted computational experiments on several datasets. We used\\ PyMC3~\cit
 
 \section*{Problem Statement}
 \subsection*{Bayesian approach}
-Let suppose that $\bX$ is the observed data which comes from the unknown distribution $p(\bX)$. 
+Suppose that $\bX$ is the observed data which comes from the unknown distribution $p(\bX)$. 
 This distribution defines our model and is called model evidence. 
 We assume that our model also contains latent variables $\bm{\theta}$. 
 The likelihood function is given by conditional probability distribution $p(\bX| \bm{\theta})$. 
@@ -179,18 +179,18 @@ In some cases we could derive the posterior in the closed form formula.
 However, it is impossible for complex models where the latent variables lies in high-dimensional space. 
 The problem is the denominator of~\eqref{bayes_th}, since it is obtained by integrating over all possible values of $\bm{\theta}$.
 
-Suppose that we have the posterior distribution $p(\bm{\theta}| \bX)$, then we could use the usual Maximum A Posteriori (MAP) approach to obtain point estimation for the parameters
+Suppose that we have the posterior distribution $p(\bm{\theta}| \bX)$, then we could use the usual Maximum A Posteriori (MAP) approach to obtain point estimation of the parameters
 \[
 \bm{\theta}_{\text{MAP}} = \argmax_{\bm{\theta}} \left[\ln p(\bm{\theta}|\bX)\right] =\argmax_{\bm{\theta}} \left[\ln p(\bX|\bm{\theta}) + \ln p(\bm{\theta})\right].
 \]
-In the case of flat prior distribution $p(\bm{\theta}) = \text{const}$, this estimation coincides with the Maximum Likelihood Estimation (MLE) approach
+In case of flat prior distribution $p(\bm{\theta}) = \text{const}$, this estimation coincides with the Maximum Likelihood Estimation (MLE) approach
 \[
 \bm{\theta}_{\text{MLE}} = \argmax_{\bm{\theta}} \left[\ln p(\bX|\bm{\theta})\right].
 \]
 
 \subsection*{Hierarchical modelling}
 
-There is one natural addition to previously described bayesian approach, which we will use in our project extensively, namely hierarchical modelling. If we look at bayes theorem, we realize that the prior selection might be very important for model performance. This issue is more critical if we have little data or very complex model. 
+There is one natural addition to previously described bayesian approach, which we will use in our project extensively, namely hierarchical modelling. If we look at Bayes theorem, we realize that the prior selection might be very important for model performance. This issue is more critical if we have little data or very complex model. 
 
 Hierarchical modelling solve this problem by allowing us to learn priors from the data itself. We consider prior distribution $p(\bm{\theta})$ of parameter $\bm{\theta}$ to be dependent on some additional hyperparameter $\alpha$. Following full bayesian approach, we need to introduce hyperprior $p(\alpha)$. Expression for posterior distribution becomes
 \begin{equation*}
@@ -202,7 +202,7 @@ Now we don't have to guess prior distribution, we can learn it from data directl
 One of the widely used approach to get posterior distribution is sampling methods such as Metropolis-Hastings, Gibbs, NUTS algorithms. 
 The general idea behind sampling methods is to obtain procedure for generating samples from the true posterior distribution. 
 Most of these methods are based on Monte Carlo Markov Chains (MCMC) procedures.
-The main disadvantages of such methods is that they are very slow for high-dimensional data.
+The main disadvantage of such methods is that they are very slow for high-dimensional data.
 
 In order to deal with high-dimensional data we could use analytical deterministic approximation of the posterior. 
 Variational inference approach determines the function which is the closest to the desired posterior distribution. 
@@ -240,7 +240,7 @@ The joint probability distribution $p(\bX, \bm{\theta})$ is given by product of 
 \subsection*{Automatic differentiation variational inference}
 In~\cite{kucukelbir2016automatic} the Automatic Differentiation Variational Inference (ADVI) method was proposed to solve the problem~\eqref{minKL_maxELBO}. 
 
-At the first stage ADVI method automatically transform the original constrained variables $\bm{\theta}$ to the unconstrained real-valued variables $\bm{\zeta} = T(\bm{\theta})$. ADVI then defines the corresponding variational problem on the transformed variables, that is, to minimize $\text{KL}\left(q(\bm{\zeta})|| p(\bm{\zeta}| \bX)\right)$. With this transformation, all latent variables are defined on the same space. E.\,g. if some component $\theta$ of $\bm{\theta}$ should be non-negative ($\theta \in \mathbb{R}_+$), then one could use the logarithm transformation $\zeta = T(\theta) = \log(\theta) \in \mathbb{R}$. 
+At the first stage ADVI method automatically transforms the original constrained variables $\bm{\theta}$ to the unconstrained real-valued variables $\bm{\zeta} = T(\bm{\theta})$. ADVI then defines the corresponding variational problem on the transformed variables, that is, to minimize $\text{KL}\left(q(\bm{\zeta})|| p(\bm{\zeta}| \bX)\right)$. With this transformation, all latent variables are defined on the same space. E.\,g. if some component $\theta$ of $\bm{\theta}$ are non-negative ($\theta \in \mathbb{R}_+$), then one could use the logarithm transformation $\zeta = T(\theta) = \log(\theta) \in \mathbb{R}$. 
 
 The joint probability function for transformed latent variables equals 
 \[
@@ -259,7 +259,7 @@ The next stage of the ADVI algorithm includes stochastic optimization. Firstly, 
 	\bm{\mu}^*, \bm{\Sigma}^* = \argmax_{\bm{\mu}, \bm{\Sigma}} \text{ELBO}(q).
 \]
 
-The solution of this problem is obtained using stochastic optimization. However, we cannot directly use automatic differentiation on the ELBO. This is because the objective function is expectation over optimized parameters. To avoid this problem one could use elliptical standardization as reparametrization trick~[{\color{red} link}]. We convert the Gaussian variational approximation to the standard Gaussian $\bm{\eta} = S(\bm{\zeta})$
+The solution of this problem is obtained using stochastic optimization. However, we cannot directly use automatic differentiation on the ELBO. This is because the objective function is expectation over optimized parameters. To avoid this problem one could use elliptical standardization as reparametrization trick~\cite{kingma2013auto}. We convert the Gaussian variational approximation to the standard Gaussian $\bm{\eta} = S(\bm{\zeta})$
 \[
 	q(\bm{\eta}) = \mathcal{N}(\bm{\eta}|0, \mathbf{I}).
 \]
@@ -278,7 +278,7 @@ ADVI was implemented for deep learning models. In our project, neural network co
 \end{equation*}
 The usual deep learning approach is to use stochastic gradient descent and error backpropagation in order to fit the network parameters $\{\mathbf{W}_k$, $\mathbf{b}_k\}$, where $k$ iterates over all network layers. The activation function such as $\textit{tanh}$, $\textit{ReLU}$, $\textit{softmax}$ allows to fit non-linear models.
 
-We implemented bayesian approach, i.e. instead of point estimation, each parameter and each output in the network is given by probability distribution, the difference between two approaches can be seen on fig.~\ref{pic:BNN}. This probability distributions correspond to the priors of the bayesian model described above. The usual models tend to overfit in the case of high-dimensional parameter space. This is exactly the case of deep neural networks, where number of estimated parameters in order of millions. There are some techniques to avoid this problem. The most widely used  is regularization. Adding the term which restricts the model complexity allows to control parameters values. The introducing priors distributions is exactly the same procedure. The normal prior corresponds to $\ell 2$ regularization and the laplace prior~--- $\ell 1$ regularizer.
+We implemented bayesian approach, i.e. instead of point estimation, each parameter and each output in the network is given by probability distribution, the difference between two approaches can be seen on fig.~\ref{pic:BNN}. These probability distributions correspond to the priors of the bayesian model described above. The usual models tend to overfit in the case of high-dimensional parameter space. This is exactly the case with deep neural networks, where number of estimated parameters are several millions or more. There are some techniques to avoid this problem. The most widely used  is regularization. Adding the term which restricts the model complexity allows to control parameters values. Introducing priors distributions is exactly the same procedure. The normal prior corresponds to $\ell 2$ regularization and the laplace prior~--- $\ell 1$ regularizer.
 \begin{figure}[h]
 	\centering
 	\subfloat[Conventional neural network]{\includegraphics[width=0.47\columnwidth]{pres_pics/BNN_1}}
@@ -356,13 +356,13 @@ $\qquad\qquad\qquad\qquad\qquad\qquad\:\:$\textbf{Normal}$\:\:\:\:\:$\textbf{Lap
 
 Normal, laplace, cauchy and flat distributions were used as priors. We also tried hierarchical modelling approach. Fixed values of parameters, half-normal, half-cauchy and inverse-gamma distributions were used as hyperpriors for scaling parameters. Fixed values of hyperparameters correspond to the delta function hyperprior.
 
-In this experiment our model we used the neural network with the following structure:
+In this experiment we used the neural network with the following structure:
 
-$\bullet$ Dense layer with $5$ units of the layer and \textit{tanh} activation;
+$\bullet$ Dense layer with $5$ units and \textit{tanh} activation;
 
-$\bullet$ Dense layer with $5$ units of the layer and \textit{tanh} activation;
+$\bullet$ Dense layer with $5$ units and \textit{tanh} activation;
 
-$\bullet$ Dense layer with $2$ units of the layer and \textit{softmax} as activation.
+$\bullet$ Dense layer with $2$ units and \textit{softmax} as activation.
 
 Different values of the noise parameter for data generation were tried. As expected it is hard to reconstruct the initial pattern with high noise parameter (the true class distribution could be seen in the fig.\ref{pic: ex_data}). To detect the influence of priors and hyperpriors we decided to use the large noise parameter. In the picture below the best result for circles dataset is shown ($700/300$ samples for training/validation). Here the first plot illustrates the posterior probability for the first class. The second plot illustrates model uncertainty in predictions. The uncertainty is obtained as standard deviation of prediction over batch of samples from posterior distribution.
 
@@ -390,7 +390,7 @@ Different values of the noise parameter for data generation were tried. As expec
 
 \vspace{\baselineskip}
 
-In the plots below one could see the same results for moons dataset. Both dataset shows that our model become uncertain about predictions near the true decision boundary.
+In the plots below one could see the same results for moons dataset. Both datasets shows that our model become uncertain about predictions near the true decision boundary.
 
 \begin{minipage}[t]{0.32\columnwidth}
 	\vspace{0.9cm}
@@ -418,7 +418,7 @@ In the plots below one could see the same results for moons dataset. Both datase
 
 Next experiment compares the results for fixed values of hyperparameters and hierarchical bayesian approach with introducing hyperpriors. 
 The following pictures shows one of the example for circles dataset.
-The hyperpriors allows to find the appropriate hyperparameters values for normal and laplace priors. The fixed values was tuned on the logarithmic grid. 
+The hyperpriors allows to find the appropriate hyperparameters values for normal and laplace priors. The fixed values were tuned on the logarithmic grid. 
 
 \begin{minipage}[t]{0.32\columnwidth}
 	\vspace{0.6cm}
@@ -454,7 +454,7 @@ The hyperpriors allows to find the appropriate hyperparameters values for normal
 
 \vspace{\baselineskip}
 
-Laplace prior is equivalent to $\ell1$ regularazation which gives sparsity solution. Let have a look at the distributions of the weights from one of the layers from the network. In the fig.~\ref{pic::sparsity} the posterior distributions of the last dense layer weights are illustrated. We have laplace prior In the left plot and cauchy in the right. All weights except two are distributed around zero for laplace prior. It leads to the sparse solution. In contrast, the cauchy prior gives the parameters without centering around zero.
+Laplace prior is equivalent to $\ell1$ regularazation which gives sparsity solution. Let us have a look at the distributions of the weights from one of the layers from the network. In the fig.~\ref{pic::sparsity} the posterior distributions of the last dense layer weights are illustrated. We have laplace prior on the left plot and cauchy on the right. All weights except two are distributed around zero for laplace prior. It leads to the sparse solution. In contrast, the cauchy prior gives the parameters without centering around zero.
 
 \begin{figure}[h]
 	\centering
@@ -470,9 +470,9 @@ To summarize all the results for synthetic datasets, we formulate several \textb
 $\bullet$ variational inference allows to approximate posterior
 distribution;
 
-$\bullet$ posterior distribution helps to make conclusions about certainties;
+$\bullet$ posterior distribution helps to make conclusions about uncertainties;
 
-$\bullet$ hyperpriors is almost all gives the better results, especially on noisy data.
+$\bullet$ hyperpriors are almost always give better results, especially on noisy data.
 
 \subsection*{Uncertainty in predictions}
 
@@ -505,7 +505,7 @@ In this experiment we used MNIST datasets (50000/10000 objects for training/vali
 \vspace{\baselineskip}
 
 Using the estimated posterior distributions of the considered neural network parameters we generated $100$ samples from it and computed the output of the network.
-In the fig.~\ref{pic: var_eer} the first plot illustrates the variances of predictions over all samples. One could these variances for each class averaged over misclassified objects (blue line), objects with correct prediction (green line) and all objects (red line). The variances for misclassified objects is much higher than for correct. Also one could see that that for digits 2, 7, 8, 9 the results are more dispersed. The second plot shows the histogram of the expected error rate which expresses the fraction of samples for which the prediction is different from the mode of the posterior distribution.
+In the fig.~\ref{pic: var_eer} the first plot illustrates the variances of predictions over all samples. One could have these variances averaged for each class over misclassified objects (blue line), objects with correct prediction (green line) and all objects (red line). The variances for misclassified objects are much higher than for correct. Also one could see that for digits 2, 7, 8, 9 the results are more dispersed. The second plot shows the histogram of the expected error rate which expresses the fraction of samples for which the prediction is different from the mode of the posterior distribution.
 
 \begin{figure}[h]
 	\centering
@@ -516,7 +516,7 @@ In the fig.~\ref{pic: var_eer} the first plot illustrates the variances of predi
 	\label{pic: var_eer}
 \end{figure}
 
-The fig.~\ref{pic: high_conf} demonstrates the digits from validation sets for which the expected error rate equals zero, but the model makes mistake. It means that our model overconfident about it results, but there is a mistake. There are exactly three of them. 
+The fig.~\ref{pic: high_conf} demonstrates the digits from validation sets for which the expected error rate equals zero, but the model makes mistake. It means that our model is overconfident about prediction, but it is not correct. There are exactly three of them. 
 
 \begin{figure}[h]
 	\centering
@@ -526,9 +526,9 @@ The fig.~\ref{pic: high_conf} demonstrates the digits from validation sets for w
 \end{figure}
 \vspace{-0.2cm}
 
-The next picture (see fig.~\ref{pic: high_conf}) shows three digits for which the expected error rate is the highest (about 0.7). For these objects our model is not confidence at all. Also we gives the true labels and models predictions for these examples.
+The next picture (see fig.~\ref{pic: high_conf}) shows three digits for which the expected error rate is the highest (about 0.7). For these objects our model is not confident at all. Also we show the true labels and model predictions for these examples.
 
-The model accuracy for these dataset is $97.7 \%$. We used the different setup for priors and hypepriors. But the final model which examples shown above includes normal prior with fixed values of hyperparameters.
+The model accuracy for this dataset is $97.7 \%$. We used the different setup for priors and hypepriors. But the final model examples shown above includes normal prior with fixed values of hyperparameters.
 
 \begin{figure}[!h]
 	\centering
@@ -539,7 +539,7 @@ The model accuracy for these dataset is $97.7 \%$. We used the different setup f
 
 \subsection*{Transfer learning}
 
-The bayesian approach allows to use transfer learning approach to build a model on new object recognition data set using pretrained on another dataset model. In order to implement this idea one could place informed priors centered around weights retrieved from this pretrained network. We tried this approach for two real datasets. The first one is CIFAR-10 dataset \footnote{%
+The bayesian approach allows to use transfer learning approach to build a model on new object recognition data set using model, pretrained on another dataset. In order to implement this idea one could place informed priors centered around weights retrieved from this pretrained network. We tried this approach for two real datasets. The first one is CIFAR-10 dataset \footnote{%
 	\href{https://www.cs.toronto.edu/~kriz/cifar.html}{CIFAR-10 dataset~--- https://www.cs.toronto.edu/~kriz/cifar.html}}
 which consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images. The second one is Cats-vs-Dogs\footnote{%
 	\href{https://www.kaggle.com/c/dogs-vs-cats}{Cats-vs-Dogs dataset~--- https://www.kaggle.com/c/dogs-vs-cats}} which consists of 6000 colour images of cats and dogs with diferent sizes. There are 5000 training images and 1000 test images.
@@ -548,7 +548,7 @@ Firstly, we tried to train model with the network which were used for MNIST data
 
 The pretrained model that we used in this experiment was VGG-19\footnote{%
 \href{ http://www.robots.ox.ac.uk/~vgg/research/very_deep/}{VGG-19 model~---  http://www.robots.ox.ac.uk/$\sim$vgg/research/very\_deep/}}. The architecture for VGG-19 model is given in fig.~\ref{pic::VGG19}. We trained our models on AWS Amazon server\footnote{%
-\href{ https://aws.amazon.com/}{https://aws.amazon.com/}} on g2.2xlarge. Unfortunately, our approach lack of memory in this setup for both datasets. Then we tried to cut off last layers to reduce number of estimated parameters. When we got rid of all dense layers we coped with compiling the model, but it would took days to fit the model. Since that, we didn't get the results for these datasets.
+\href{ https://aws.amazon.com/}{https://aws.amazon.com/}} on g2.2xlarge. Unfortunately, our approach didn't have enough memory in this setup for both datasets. Then we tried to cut off last layers to reduce number of estimated parameters. When we got rid of all dense layers we managed to compile the model, but it would took days to fit the model. Since that, we didn't get the results for these datasets.
 \begin{figure}
 \centering
 \includegraphics[width=0.9\columnwidth]{pres_pics/VGG19}
@@ -563,7 +563,7 @@ In this project we investigated bayesian approach for deep learning models. We r
 \section*{Contributions}
 \textbf{Ilya Zharikov} programmed main framework for placing priors in the network, built neural networks architectures, implemented experiments on CIFAR-10 and cats-vs-dogs datasets.
 
-\textbf{Roman Isachenko} extended the bayesian approach to hierarchical modelling, build VGG-19 network with transfer learning approach.
+\textbf{Roman Isachenko} extended the bayesian approach to hierarchical modelling, built VGG-19 network with transfer learning approach.
 
 \textbf{Artem Bochkarev} conducted experiments and drew conclusions from synthetic data and MNIST dataset.
 
