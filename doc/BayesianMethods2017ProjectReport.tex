@@ -229,7 +229,7 @@ This lower bound can be expressed in the following way
 The joint probability distribution $p(\bX, \bm{\theta})$ is given by product of likelihood function $p(\bX)$ and prior distribution $p(\bm{\theta})$.
 
 \subsection*{Automatic differentiation variational inference}
-In [{\color{red} link to ADVI}] the Automatic Differentiation Variational Inference (ADVI) method was proposed to solve the problem~\eqref{minKL_maxELBO}. 
+In~\cite{kucukelbir2016automatic} the Automatic Differentiation Variational Inference (ADVI) method was proposed to solve the problem~\eqref{minKL_maxELBO}. 
 
 At the first stage ADVI method automatically transform the original constrained variables $\bm{\theta}$ to the unconstrained real-valued variables $\bm{\zeta} = T(\bm{\theta})$. ADVI then defines the corresponding variational problem on the transformed variables, that is, to minimize $\text{KL}\left(q(\bm{\zeta})|| p(\bm{\zeta}| \bX)\right)$. With this transformation, all latent variables are defined on the same space. E.\,g. if some component $\theta$ of $\bm{\theta}$ should be non-negative ($\theta \in \mathbb{R}_+$), then one could use the logarithm transformation $\zeta = T(\theta) = \log(\theta) \in \mathbb{R}$. 
 
@@ -268,22 +268,22 @@ In the original paper a new adaptive step-size gradient sequence was proposed. T
 
 \subsection*{Datasets}
 
-In our research we used synthetic data for simple binary classification problem that's not linearly separable and real data such as MNIST dataset for multi-classification problem. One can see the detailed description of used data below.
+In our research we used synthetic data for binary classification problem in non-linearly separable case and real data such as MNIST\footnote{%
+	\href{https://www.kaggle.com/c/digit-recognizer/data}{MNIST dataset~--- https://www.kaggle.com/c/digit-recognizer/data}} dataset for multiclass classification problem. One could find the detailed description of used data below.
 
-\textbf{Synthetic data}.
+\textbf{Synthetic data}
 
-Synthetic data is consist of two-dimensional binary classification datasets (moons and circles) that are challenging to certain algorithms, because they are not linearly separable. Also considered datasets are very useful for visualisation.
+Synthetic data consists of two-dimensional binary classification datasets (moons and circles) which are challenging, since they are non-linearly separable.
 
-1. Moons: two interleaving half circles (see fig.\ref{pic: ex_data} (a));
+1. Moons: two interleaving half-circles (see fig.\ref{pic: ex_data} (a));
 
 2. Circles: a large circle containing a smaller circle (see fig.\ref{pic: ex_data} (b)).
 
 
-\textbf{Real data}.
+\textbf{Real data}
 
-As for the real data was selected MNIST\footnote{%
-	\href{https://www.kaggle.com/c/digit-recognizer/data}{MNIST dataset~--- https://www.kaggle.com/c/digit-recognizer/data}} dataset. 
-The data files contain gray-scale images of hand-drawn digits, from zero through nine.
+As for the real data MNIST dataset was selected. 
+The data contains gray-scale images of hand-drawn digits, from zero through nine.
 
 Each image is $28$ pixels in height and $28$ pixels in width, for a total of $784$ pixels in total (see fig.\ref{pic: ex_data} (c)). Each pixel has a single pixel-value associated with it, indicating the lightness or darkness of that pixel, with higher numbers meaning darker. This pixel-value is an integer between $0$ and $255$, inclusive.
 
@@ -298,15 +298,15 @@ Each image is $28$ pixels in height and $28$ pixels in width, for a total of $78
 	\label{pic: ex_data}
 \end{figure}
 
-\subsection*{Priors and hyper-priors influence}
+\subsection*{Priors and hyperpriors influence}
 
-On the following one can see the design of the describing experiment.
+On the following figure one could see the design of the experiment for synthetic data.
 
 $\qquad\qquad\qquad\qquad\qquad\qquad\:\:$\textbf{Normal}$\:\:\:\:\:$\textbf{Laplace}$\:\:\:\:\:$\textbf{Cauchy}$\quad\:\:\:\:$\textbf{Flat}
 
 \begin{minipage}[t]{0.1\columnwidth}
 	\vspace{-8.0cm}
-	\rotatebox{90}{\textbf{Hierarchical modeling}$\qquad\:\:\:$\textbf{Fix}}
+	\rotatebox{90}{\textbf{Hierarchical modelling}$\qquad\:\:\:$\textbf{Fix}}
 \end{minipage}
 \begin{minipage}[t]{0.23\columnwidth}
 	\vspace{-7.9cm}
@@ -329,15 +329,17 @@ $\qquad\qquad\qquad\qquad\qquad\qquad\:\:$\textbf{Normal}$\:\:\:\:\:$\textbf{Lap
 	\includegraphics[width=0.93\columnwidth]{pres_pics/all}
 \end{minipage}
 
-So we chose different priors and combined it with different hyper-priors and using ADVI approach obtained the posterior distributions of the model parameters. In this experiment our model is a network with the following structure:
+Normal, laplace, cauchy and flat distributions were used as priors. We also tried hierarchical modelling approach. Fixed values of parameters, half-normal, half-cauchy and inverse-gamma distributions were used as hyperpriors for scaling parameters. Fixed values of hyperparameters correspond to the delta function hyperprior.
 
-$\bullet$ DenseLayer with $5$ units of the layer and \textit{tanh} as activation function;
+In this experiment our model we used the neural network with the following structure:
 
-$\bullet$ DenseLayer with $5$ units of the layer and \textit{tanh} as activation function;
+$\bullet$ Dense layer with $5$ units of the layer and \textit{tanh} activation;
 
-$\bullet$ DenseLayer with $2$ units of the layer and \textit{softmax}.
+$\bullet$ Dense layer with $5$ units of the layer and \textit{tanh} activation;
 
-In this experiment we try different values of the noise parameter. As expected with high noise parameter it is hard to reconstruct the initial pattern (it is easy to see the form of it on the fig.\ref{pic: ex_data}). In our experiment we considered the hardest datasets. On the picture below one can see the best approach that coped with the task for circles dataset ($700$ samples for training, $300$ for validation):
+$\bullet$ Dense layer with $2$ units of the layer and \textit{softmax} as activation.
+
+Different values of the noise parameter for data generation were tried. As expected it is hard to reconstruct the initial pattern with high noise parameter (the true class distribution could be seen in the fig.\ref{pic: ex_data}). To detect the influence of priors and hyperpriors we decided to use the large noise parameter. In the picture below the best result for circles dataset is shown ($700/300$ samples for training/validation). Here the first plot illustrates the posterior probability for the first class. The second plot illustrates model uncertainty in predictions. The uncertainty is obtained as standard deviation of prediction over batch of samples from posterior distribution.
 
 \begin{minipage}[t]{0.32\columnwidth}
 	\vspace{0.9cm}
@@ -361,7 +363,9 @@ In this experiment we try different values of the noise parameter. As expected w
 	\includegraphics[height=4cm]{pres_pics/circles_inv_cauchy_uncert}
 \end{minipage}
 
-Here one can see the same picture that also demonstrates posterior probability over the fist class and uncertainty in predictions of the best approach but for moons datasets ($700$ samples for training, $300$ for validation):
+\vspace{\baselineskip}
+
+In the plots below one could see the same results for moons dataset. Both dataset shows that our model become uncertain about predictions near the true decision boundary.
 
 \begin{minipage}[t]{0.32\columnwidth}
 	\vspace{0.9cm}
@@ -387,7 +391,9 @@ Here one can see the same picture that also demonstrates posterior probability o
 
 \vspace{\baselineskip}
 
-In the next experiment we compare the results of approaches that used fixed values for hyper-parameters and approaches that use hyper-priors. The next pictures demonstrates the posterior probability over the first class for different priors on the circles datasets:
+Next experiment compares the results for fixed values of hyperparameters and hierarchical bayesian approach with introducing hyperpriors. 
+The following pictures shows one of the example for circles dataset.
+The hyperpriors allows to find the appropriate hyperparameters values for normal and laplace priors. The fixed values was tuned on the logarithmic grid. 
 
 \begin{minipage}[t]{0.32\columnwidth}
 	\vspace{0.6cm}
@@ -423,47 +429,47 @@ In the next experiment we compare the results of approaches that used fixed valu
 
 \vspace{\baselineskip}
 
-In the next experiment we visualize the estimated posterior distributions of the weights from the last layer for different priors: Laplace and Cauchy. As expected on the fig.~\ref{pic: sparsity} we can see that for Laplace prior many of weights are near to zero compared to Cauchy prior. Hence we obtain that Laplace priors is connected to the sparse solution as it should be.
+Laplace prior is equivalent to $\ell1$ regularazation which gives sparsity solution. Let have a look at the distributions of the weights from one of the layers from the network. In the fig.~\ref{pic::sparsity} the posterior distributions of the last dense layer weights are illustrated. We have laplace prior In the left plot and cauchy in the right. All weights except two are distributed around zero for laplace prior. It leads to the sparse solution. In contrast, the cauchy prior gives the parameters without centering around zero.
 
 \begin{figure}[h]
 	\centering
 	\subfloat{\includegraphics[width=0.49\columnwidth]{pres_pics/trace_laplace_w3}}
 	\hfill
 	\subfloat{\includegraphics[width=0.49\columnwidth]{pres_pics/trace_cauchy_w3}}
-	\caption{Estimated posterior distributions of the weights from the last layer}
-	\label{pic: sparsity}
+	\caption{Estimated posterior distributions of the weights from the last layer for laplace prior (left), and cauchy prior (right)}
+	\label{pic::sparsity}
 \end{figure}
 
-Thus, according to the results of the all conducted experiments on the synthetic data we can formulate several \textbf{conclusions:}
+To summarize all the results for synthetic datasets, we formulate several \textbf{conclusions:}
 
 $\bullet$ variational inference allows to approximate posterior
 distribution;
 
 $\bullet$ posterior distribution helps to make conclusions about certainties;
 
-$\bullet$ hyper-priors is almost all gives the better results, especially on noisy data.
+$\bullet$ hyperpriors is almost all gives the better results, especially on noisy data.
 
 \subsection*{Uncertainty in predictions on real data}
 
-In this experiment we use MNIST datasets (50000 for training ad 10000 for validation). The main goal was to use ADVI approach on real data with several classes and analyze the uncertainties in predictions. Here we used a network with the following structure:
+In this experiment we used MNIST datasets (50000/10000 objects for training/validation). The main goal was to use ADVI approach on real data with several classes and analyze the uncertainties in predictions. Here we used a network with the following structure:
 
 \vspace{\baselineskip}
 
 \begin{minipage}[t]{0.64\columnwidth}
 	\vspace{-6cm}
-	$\bullet$ Conv2DLayer with $32$ filters of the size $5\times 5$ and \textit{tanh} nonlinearity;
+	$\bullet$ Convolution layer with 32 filters of the size $5\times 5$ and \textit{tanh} nonlinearity;
 	
-	$\bullet$ MaxPool2DLayer where pool size is equal to $2\times2$;
-	
-	
-	$\bullet$ Conv2DLayer with $32$ filters of the size $5\times 5$ and \textit{tanh} nonlinearity;
-	
-	$\bullet$ MaxPool2DLayer where pool size is equal to $2\times2$;
+	$\bullet$ Max pooling layer where pool size is equal to $2\times2$;
 	
 	
-	$\bullet$ DenseLayer with $64$ units of the layer and \textit{tanh} as activation function;
+	$\bullet$ Convolution layer with 32 filters of the size $5\times 5$ and \textit{tanh} nonlinearity;
 	
-	$\bullet$ DenseLayer with $10$ units of the layer and \textit{softmax}.
+	$\bullet$ Max pooling layer where pool size is equal to $2\times2$;
+	
+	
+	$\bullet$ Dense layer with 64 units of the layer and \textit{tanh} as activation function;
+	
+	$\bullet$ Dense layer with 10 units of the layer and \textit{softmax}.
 \end{minipage}
 \hspace{0.3cm}
 \begin{minipage}[t]{0.3\columnwidth}
