@@ -18,6 +18,7 @@
 \usepackage{indentfirst} 
 \frenchspacing
 \usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
 
 \renewcommand{\epsilon}{\ensuremath{\varepsilon}} 
 \renewcommand{\phi}{\ensuremath{\varphi}} 
@@ -146,6 +147,8 @@
 	The recent advances in deep learning allow us to solve really hard real word problems with high accuracy. What these methods lack is interpretability of the model and uncertainty guarantees for the predictions. Bayesian framework allows us to solve both these two issues, and with recent development in variational inference technique it is possible to take the best of two worlds and implement bayesian neural network. Our project is dedicated to testing different priors for neurons weights and exploring advantages and disadvantages of bayesian approach in deep learning.
 \end{abstract}
 
+\hspace{-0.35cm}\fbox{\small{All materials and code can be found here: \url{https://github.com/isachenkoroma/BNN}}}
+
 \section*{Introduction}
 Deep learning is one of the most promising and quickly advancing areas of machine learning research~\cite{Goodfellow-et-al-2016}. Deep models proved to be superior to other algorithms in many fields such as image classification~\cite{krizhevsky2012imagenet}, speech recognition~\cite{dahl2012context}, unsupervised learning~\cite{le2013building} and reinforcement learning~\cite{mnih2015human}. Still, these models are mostly used as some black box in order to solve complicated problems. We often want to know not only the prediction of the network on given input, but we would like to understand the uncertainty~\cite{blundell2015weight} of the model on this object. It is also desirable to be able to do transfer learning~\cite{pan2010survey}, i.e. be able to obtain correct results on new types of data, using previous model as prior knowledge.
 
@@ -216,6 +219,7 @@ This distance function is non-negative and equals to zero iff $q \equiv p$
 \]
 But the problem is that we don't know the true posterior and can't minimize the Kullback-Leibler divergence explicitly. 
 Variational inference approach solves the equivalent task which follows from the equation:
+
 \begin{multline*}
 \ln p(\bX) = \int q(\bm{\theta}) \ln p(\bX) d \bm{\theta} = \int q(\bm{\theta}) \ln \left[ \frac{p(\bX, \bm{\theta})}{p(\bm{\theta} | \bX)} \right] d \bm{\theta} = \\
 = \int q(\bm{\theta}) \ln \left[ \frac{q(\bm{\theta})p(\bX, \bm{\theta}) }{p(\bm{\theta} | \bX)q(\bm{\theta})} \right] d \bm{\theta} = 
@@ -568,6 +572,8 @@ In this project we investigated bayesian approach for deep learning models. We r
 \textbf{Artem Bochkarev} conducted experiments and drew conclusions from synthetic data and MNIST dataset.
 
 Everyone were equally involved in creating presentation, writing this report, as well as general project development.
+
+\newpage
 
 \bibliographystyle{unsrt}
 \bibliography{ref.bib}
